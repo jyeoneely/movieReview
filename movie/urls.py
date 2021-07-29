@@ -9,4 +9,5 @@ urlpatterns = [
     path('create', views.createview, name='create'), #영화 등록 페이지
     path('modify/<int:pk>', views.modifyview, name='modify'), #영화 수정 페이지
     path('delete/<int:pk>', views.delete, name='delete'), #영화 삭제 (링크)
+    path('asdf', views.index, name="index1")
 ]
