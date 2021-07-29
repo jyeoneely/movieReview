@@ -4,5 +4,9 @@ from community import views
 
 app_name = 'community'
 urlpatterns = [
-    path('', views.index, name='index')
+    #path('admin/', admin.site.urls),
+    path('', views.boardView, name="boardView"),
+    path('<int:pk>/', views.DetailView.as_view(), name='detail'),
+    path('write/', views.writePageView, name='write'),
+
 ]
