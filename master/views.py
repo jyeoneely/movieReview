@@ -1,5 +1,6 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def index(request):
-    return HttpResponse("관리자페이지입니다.")
+    return render(request, 'master/index.html', )
