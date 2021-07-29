@@ -1,10 +1,8 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
+from movie import views
 
-from . import views
-from community import views
-app_name = "movie"
+app_name = 'movie'
 urlpatterns = [
-  #   path('', views.index),
-  #   path('/movie', views.listview),
-  #   path('pybo/', views.index),
+    path('', views.index, name='index'),
 ]
