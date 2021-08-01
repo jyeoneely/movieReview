@@ -1,0 +1,18 @@
+<h1>{{ review }}</h1>
+<div>
+    {% if review.modify_date == null %}
+        <p>{{ review.create_date }}</p>
+    {% else %}
+        <p>{{ review.modify_date }}</p>
+    {% endif %}
+</div>
+<div>{{ review.content }}</div>
+
+</div>
+    <!--템플렛 태그로 추가 if request.user == question.author-->
+        <div>
+            <a href="{% url 'review:review_modify' review.id  %}">수정</a>
+            <a href="{% url 'review:review_delete' review.id  %}">삭제</a> <!--js 확인문구 추가-->
+        </div>
+    <!--endif-->
+</div>

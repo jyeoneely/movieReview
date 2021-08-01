@@ -1,0 +1,54 @@
+<!--static&bootstrap 적용하기-->
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>영화명</th>
+            <th>별점</th>
+            <th>작성일시</th> <!--기능 보안 후 작성자, 조회 추가-->
+            <th>조회</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if review_list %}
+        {% for review in review_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+                <a href="{% url 'review:review_detail' review.id %}">{{ review }}</a>
+            </td>
+            <td>
+                {% if review.star == 0 %}
+                    <p>☆☆☆☆☆</p>
+                {% elif review.star == 1 %}
+                    <p>★☆☆☆☆</p>
+                {% elif review.star == 2 %}
+                    <p>★★☆☆☆</p>
+                {% elif review.star == 3 %}
+                    <p>★★★☆☆</p>
+                {% elif review.star == 4 %}
+                    <p>★★★★☆</p>
+                {% else %}
+                    <p>★★★★★</p>
+                {% endif %}
+            </td>
+            <td>
+                {% if review.modify_date == null %}
+                    <p>{{ review.create_date }}</p>
+                {% else %}
+                    <p>{{ review.modify_date }}</p>
+                {% endif %}
+            </td>
+            <td>{{ review.review_hit }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">리뷰가 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+
+<a href="{% url 'review:review_create' %}">리뷰작성</a>

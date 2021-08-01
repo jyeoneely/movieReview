@@ -1,0 +1,6 @@
+    <h2>리뷰등록</h2>
+    <form method="post">  <!--동일한 템플릿을 여러 기능에서 함께 사용할 경우 form의 action 속성을 비워둘 수 있음.-->
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">등록</button>
+    </form>
