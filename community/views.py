@@ -1,23 +1,29 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect, Http404
 from .models import Board
-from .forms import BaseBoard
-from django.views import generic
+from django.urls import reverse
 
+from .models import *
 
+# Create your views here.
+def index(request):
+    boards = {'boards': Board.objects.all()}
+    return render(request, 'community/list.html', boards)
 
-def boardView(request):
-     template_name = 'community/community.html'
-     board_object = Board.objects.order_by('-write_date')
-     context = {'board_object': board_object}
-     return render(request, template_name, context)
+def post(request):
+    if request.method == "POST":
+        author = request.POST['author']
+        title = request.POST['title']
+        content = request.POST['content']
+        board = Board(author=author, title=title, content=content)
+        board.save()
+        return HttpResponseRedirect(reverse('index'))
+    else:
+        return render(request, 'community/post.html')
 
-class DetailView(generic.DetailView):
-    model = Board
-
-def writePageView(request):
-    template_name = 'community/write_page.html'
-    form = BaseBoard()
-    context = {'form': form}
-    return render(request, template_name, context)
-
-
+def detail(request, id):
+    try:
+        board = Board.objects.get(pk=id)
+    except Board.DoesNotExist:
+        raise Http404("Does not exist!")
+    return render(request, 'detail.html', {'board': board})
