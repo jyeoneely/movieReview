@@ -1,18 +1,50 @@
-<h1>{{ review }}</h1>
-<div>
-    {% if review.modify_date == null %}
-        <p>{{ review.create_date }}</p>
+{% load static %}
+<link rel="stylesheet" href="{% static 'bootstrap.min.css' %}"> <!--type="text/css"-->
+<!--static&bootstrap 적용하기-->
+<div class="container my-3">
+<h1 class="border" py-2>{{ review }}</h1>
+    <!-- ----------------------------별점영역------------------------------------ -->
+<span>
+    {% if review.star == 0 %}
+        <a>별점 ☆☆☆☆☆</a>
+    {% elif review.star == 1 %}
+        <a>별점 ★☆☆☆☆</a>
+    {% elif review.star == 2 %}
+        <a>별점 ★★☆☆☆</a>
+    {% elif review.star == 3 %}
+        <a>별점 ★★★☆☆</a>
+    {% elif review.star == 4 %}
+        <a>별점 ★★★★☆</a>
     {% else %}
-        <p>{{ review.modify_date }}</p>
+        <a>별점 ★★★★★</a>
     {% endif %}
+</span>
+<!-- ----------------------------------------------------------------------- -->
+    <!-- ----------------------------작성일자영역------------------------------------ -->
+<span>
+    {% if review.modify_date == null %}
+        <a>작성일자 {{ review.create_date }}</a>
+    {% else %}
+        <a>마지막 수정일자{{ review.modify_date }}</a>
+    {% endif %}
+</span>
+<!-- ----------------------------------------------------------------------- -->
+<!-- ----------------------------조회수영역------------------------------------ -->
+<span><input type="hidden" value="{{ review.update_counter }}">조회수{{ review.review_hit }}</span>
+<!-- ----------------------------------------------------------------------- -->
+<!-- ----------------------------리뷰내용영역------------------------------------ -->
+<div class="card my-3">
+    <div class="card-body">
+            <div class="card-text" style="white-space: pre-line;">{{ review.content }}</div>
+    </div>
 </div>
-<div>{{ review.content }}</div>
-
-</div>
+<!-- ----------------------------목록영역------------------------------------ -->
+    <span><a class="btn btn-primary" href="{% url 'review:index' %}" role="button">목록</a></span>
+<!-- ----------------------------------------------------------------------- -->
+<!-- ----------------------------수정, 삭제 영역------------------------------------ -->
     <!--템플렛 태그로 추가 if request.user == question.author-->
-        <div>
-            <a href="{% url 'review:review_modify' review.id  %}">수정</a>
-            <a href="{% url 'review:review_delete' review.id  %}">삭제</a> <!--js 확인문구 추가-->
-        </div>
+    <span><a class="btn btn-primary" href="{% url 'review:review_modify' review.id  %}" role="button">수정</a></span>
+    <span><a class="btn btn-primary" href="{% url 'review:review_delete' review.id  %}" role="button">삭제</a>
+        <div class="alert alert-danger" role="alert">삭제된 글은 복구가 불가능합니다.글을 삭제하시겠습니까?</div>
+    </span> <!--js 확인문구 추가-->
     <!--endif-->
-</div>

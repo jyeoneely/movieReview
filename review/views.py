@@ -3,15 +3,29 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from review.models import Review
 from review.forms import ReviewForm
+from django.core.paginator import Paginator
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 # 리뷰홈(목록) 구현
 def index(request) :
-    review_list = Review.objects.order_by('-create_date')   # -create_date 오류잡기
-    context = {'review_list': review_list}
+    # 입력 파라미터
+    page = request.GET.get('page', '1')  # 페이지
+
+    # 조회
+    review_list = Review.objects.order_by('-create_date')
+
+    # 페이징처리
+    paginator = Paginator(review_list, 10)  # 페이지당 10개씩 보여주기
+    page_obj = paginator.get_page(page)
+
+    context = {'review_list': page_obj}
     return render(request, 'review/review_list.html', context)
+
+    # review_list = Review.objects.order_by('-create_date')   # -create_date 오류잡기
+    # context = {'review_list': review_list}
+    # return render(request, 'review/review_list.html', context)
 
 # 리뷰등록 구현
 # @login_required(login_url='common:login')
