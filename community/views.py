@@ -19,11 +19,11 @@ def post(request):
         board.save()
         return HttpResponseRedirect(reverse('index'))
     else:
-        return render(request, 'community/post.html')
+        return render(request, 'community/post.html', )
 
-def detail(request, id):
+def detail(request, post_id):
     try:
-        board = Board.objects.get(pk=id)
+        board = Board.objects.get(pk=post_id)
     except Board.DoesNotExist:
         raise Http404("Does not exist!")
     return render(request, 'detail.html', {'board': board})
