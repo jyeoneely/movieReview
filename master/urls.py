@@ -4,6 +4,7 @@ from master import views
 
 app_name = 'master'
 urlpatterns = [
+    #path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('master', views.master, name='master'),       # :8000/master/master
 ]
