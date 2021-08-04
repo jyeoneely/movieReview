@@ -1,11 +1,25 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}"> <!--type="text/css"-->
 <!--static&bootstrap 적용하기-->
-<div class="container my-3">
-    <h2 class="border-bottom" py-2 >리뷰등록</h2>
-    <form method="post">  <!--동일한 템플릿을 여러 기능에서 함께 사용할 경우 form의 action 속성을 비워둘 수 있음.-->
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-primary" type="submit">등록</button>
-    </form>
-</div>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Movie review</title>
+    </head>
+    <body>
+        <div class="container my-3">
+
+            <h2 class="border-bottom" py-2 >리뷰등록</h2>
+            <form method="post">  <!--동일한 템플릿을 여러 기능에서 함께 사용할 경우 form의 action 속성을 비워둘 수 있음.-->
+                {% csrf_token %}
+                {{ form.as_p }}
+
+            </form>
+            <div class="d-flex flex-row-reverse">
+                <button class="btn btn-primary" type="submit">등록</button>
+            </div>
+        </div>
+    </body>
+</html>
