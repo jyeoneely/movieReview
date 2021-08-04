@@ -10,7 +10,7 @@
 <header>
     <div class="navbar navbar-dark bg-dark shadow-sm mb-3">
         <div class="container d-flex justify-content-between">
-            <a href="/" class="navbar-brand d-flex align-items-center">
+            <a href="{% url 'community:post' %}" class="navbar-brand d-flex align-items-center">
                 <strong>게시판</strong>
             </a>
         </div>
@@ -41,7 +41,7 @@
 
             </td>
             <td>
-                <span>{{ board.author }}</span>
+                <span>{{ board.writer }}</span>
             </td>
             <td>
                 <span>{{ board.created_date | date:"Y-m-d h:i" }}</span>
