@@ -1,0 +1,45 @@
+<table border="1">
+    <tr>
+        <td>영화제목</td>
+        <td>{{movie.title}}</td>
+    </tr>
+    <tr>
+        <td>감독</td>
+        <td>{{movie.director}}</td>
+    </tr>
+    <tr>
+        <td>개봉일</td>
+        <td>{{movie.pub_date}}</td>
+    </tr>
+    <tr>
+        <td>영화소개</td>
+        <td>{{movie.description}}</td>
+    </tr>
+    <tr>
+        <td>포스터 url</td>
+        <td>{{movie.poster}}</td>
+    </tr>
+    {% if movie.poster %}
+    <tr>
+        <td>포스터</td>
+        <td><img src="{{ movie.poster.url }}" height="400"></td>
+    </tr>
+    {% endif %}
+</table>
+
+<a href="{% url 'movie:modify' movie.id %}">수정</a>
+<a href="{% url 'movie:delete' movie.id %}">삭제</a>
+
+
+<script>
+<!--    window.addEventListener("load", function(){-->
+<!--        const del = document.querySelector(".delete");-->
+
+<!--        del.onclick = function(){-->
+<!--            if(confirm("삭제하시겠습니까?")) {-->
+<!--                location.href = del.data-uri;-->
+<!--            }-->
+<!--        }-->
+<!--    })-->
+
+</script>

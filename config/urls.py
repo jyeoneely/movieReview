@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -27,3 +29,6 @@ urlpatterns = [
     path('review/', include('review.urls')),
     path('community/', include('community.urls')),
 ]
+
+# 이미지 URL 설정
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

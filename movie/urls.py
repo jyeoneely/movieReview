@@ -4,9 +4,9 @@ from . import views
 
 app_name = 'movie'
 urlpatterns = [
-    path('', views.index, name='index'), #영화 목록 페이지
-    path('<int:pk>', views.detailview, name='detail'), #영화 상세 페이지
-    path('create', views.createview, name='create'), #영화 등록 페이지
-    path('modify/<int:pk>', views.modifyview, name='modify'), #영화 수정 페이지
-    path('delete/<int:pk>', views.delete, name='delete'), #영화 삭제 (링크)
+    path('', views.IndexView.as_view(), name='index'), #영화 목록 페이지
+    path('create', views.create, name='create'), #영화 등록 페이지
+    path('<int:movie_id>', views.detail, name='detail'), #영화 상세 페이지
+    path('modify/<int:movie_id>/', views.modify, name='modify'), #영화 수정 페이지
+    path('delete/<int:movie_id>', views.delete, name='delete'), #영화 삭제 (링크)
 ]

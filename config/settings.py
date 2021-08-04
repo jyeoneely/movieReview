@@ -139,3 +139,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 
 AUTH_USER_MODEL = 'account.User'
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
