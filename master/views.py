@@ -3,4 +3,9 @@ from django.shortcuts import render
 
 
 def index(request):
-    return render(request, 'master/index.html')
+    return render(request, 'index.html')
+
+
+
+def master(request):
+    return render(request, 'master/master.html')
