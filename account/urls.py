@@ -16,4 +16,5 @@ from . import views
 app_name = "account"
 urlpatterns = [
     path('', views.index),
+    path('index', views.index, name='index')
 ]

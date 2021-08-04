@@ -4,5 +4,6 @@ from master import views
 
 app_name = 'master'
 urlpatterns = [
-    path('', views.index, name='index')
+    path('', views.index, name='index'),
+    path('master', views.master, name='master'),       # :8000/master/master
 ]
