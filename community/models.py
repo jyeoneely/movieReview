@@ -9,7 +9,7 @@ class Board(models.Model):
         ('자유글','자유글'),
     )
     title = models.CharField(max_length=200, null=False)
-    author = models.CharField(max_length=20, null=False)
+    writer = models.CharField(max_length=20, null=False)
     content_type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='----')
     content = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)

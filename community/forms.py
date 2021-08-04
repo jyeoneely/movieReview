@@ -7,9 +7,9 @@ class BoardForm(forms.ModelForm):
 
 
 
-        fields = ['author', 'title', 'content_type', 'content', 'created_date']
+        fields = ['writer', 'title', 'content_type', 'content', 'created_date']
         widgets = {
-            'author': forms.TextInput(attrs={'class': 'form-control'}),
+            'writer': forms.TextInput(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'content_type': forms.Select(attrs={'class': 'form-select'}),
             'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 10}),
@@ -17,7 +17,7 @@ class BoardForm(forms.ModelForm):
 
         }
         labels = {
-            'author': '작성자',
+            'writer': '작성자',
             'title': '제목',
             'content_type': '머리글',
             'content': '내용',
