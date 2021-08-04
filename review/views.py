@@ -23,12 +23,12 @@ def index(request) :
     context = {'review_list': page_obj}
     return render(request, 'review/review_list.html', context)
 
-    # review_list = Review.objects.order_by('-create_date')   # -create_date 오류잡기
+    # review_list = Review.objects.order_by('-create_date')
     # context = {'review_list': review_list}
     # return render(request, 'review/review_list.html', context)
 
 # 리뷰등록 구현
-# @login_required(login_url='common:login')
+# @login_required(login_url='account:login')
 def reviewCreate(request) :
     if request.method == 'POST':
         # if not request.user.is_authenticated:
@@ -52,13 +52,19 @@ def reviewDetail(request,review_id) :
     return render(request, 'review/review_detail.html', context)
 
 # 유저상세리뷰 구현
+# @login_required(login_url='account:login')
 def reviewUserDetail(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
+
+    # if request.user != review.author:
+    #     messages.error(request, '수정권한이 없습니다')
+    #     return redirect('review:detail', review_id=review.id)
+
     context = {'review': review}
     return render(request, 'review/review_userdetail.html', context)
 
 # 리뷰 수정 구현
-# @login_required(login_url='common:login')
+# @login_required(login_url='account:login')
 def reviewModify(request,review_id) :
     review = get_object_or_404(Review, pk=review_id)
 
@@ -79,7 +85,7 @@ def reviewModify(request,review_id) :
     return render(request, 'review/review_form.html', context)
 
 # user detail delete 구현
-# @login_required(login_url='common:login')
+# @login_required(login_url='account:login')
 def reviewDelete(request, review_id) :
     review = get_object_or_404(Review, pk=review_id)
     #if request.user != review.author:
@@ -89,7 +95,7 @@ def reviewDelete(request, review_id) :
     return redirect('review:index')
 
 # like 구현
-#@login_required(login_url='common:login')
+#@login_required(login_url='account:login')
 def like_review(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
     #if request.user == review.author:
