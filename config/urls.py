@@ -22,7 +22,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', lambda request: redirect('master/')),
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name="admin"),
     path('account/', include('account.urls')),
     path('master/', include('master.urls')),
     path('movie/', include('movie.urls')),

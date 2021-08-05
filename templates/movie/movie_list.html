@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
+{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
 
-<body>
-
+{% block main %}
     <ul>
         {% if page_obj %} {% for movie in page_obj %}
         <li>
@@ -66,10 +62,7 @@
     </ul>
     <!-- 페이징처리 끝 -->
 
-
-
-
     <a href="{% url 'movie:create' %}" class="btn btn-primary">영화등록하기</a>
-</body>
 
-</html>
+
+{% endblock %}
