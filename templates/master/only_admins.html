@@ -1,1 +1,15 @@
 <!--'관리자만 접근하실수 있습니다ㅠㅠ' 보여질 페이지-->
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block main %}
+
+<button class="square_btn" onclick="history.back(-1);">뒤로가기</button>
+<div class="d-flex justify-content-center mt-2">
+  <div class="alert alert-warning" role="alert">
+    <h5 class="font-weight-bold">관리자만 접근하실 수 있습니다.</h5>
+  </div>
+</div>
+
+{% endblock %}

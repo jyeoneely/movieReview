@@ -7,4 +7,6 @@ urlpatterns = [
     #path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('master', views.master, name='master'),       # :8000/master/master
+    path('movies', views.movies, name='movies'),
+    path('users', views.users, name='users'),
 ]

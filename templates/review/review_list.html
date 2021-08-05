@@ -1,13 +1,5 @@
-{% load static %}
-<link rel="stylesheet" href="{% static 'bootstrap.min.css' %}"> <!--type="text/css"-->
-<!--static&bootstrap 적용하기-->
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Movie review</title>
-    </head>
-    <body>
+{% extends 'base.html' %}
+{% block main %}
         <div class="container my-3">
 
             <table class="table">
@@ -109,5 +101,4 @@
             </ul>
             <!-- --------------------- 페이징처리 끝 -------------------- -->
         </div>
-    </body>
-</html>
+{% endblock %}

@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-
-<body>
-
+{% extends 'base.html' %}
+{% block main %}
     <ul>
         {% if page_obj %} {% for movie in page_obj %}
         <li>
@@ -70,6 +62,4 @@
 
 
     <a href="{% url 'movie:create' %}" class="btn btn-primary">영화등록하기</a>
-</body>
-
-</html>
+{% endblock %}
