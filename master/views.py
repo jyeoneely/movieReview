@@ -5,7 +5,7 @@ from movie.models import Movie
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'main.html')
 
 
 def master(request):

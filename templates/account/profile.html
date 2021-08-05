@@ -1,3 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
+
+
+
+{% block main %}
+
   {% if user.is_active %}
   <li><a href="{% url 'account:index' %}"> <span class=""></span> {{user.pk}} / {{user.username}} 입니다.</a></li>
   <li><a href="{% url 'account:logout' %}">Logout</a></li>
@@ -6,3 +14,5 @@
   <li><a href="{% url 'account:login' %}"> <span class=""></span> Login</a></li>
   <li><a href="{% url 'admin:index' %}">Admin</a></li>
   {% endif %}
+
+{% endblock %}
