@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+<!--{# load review_filter #}-->
 {% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
 
 
@@ -13,7 +14,7 @@
                     <th>영화명</th>
                     <th>별점</th>
                     <th>작성자</th>
-                    <th>작성일시</th>
+                    <th>작성일</th>
                     <th>추천</th>
                     <th>비추천</th>
                     <th>조회</th>
@@ -24,6 +25,10 @@
                 {% for review in review_list %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
+<!--                    <td>-->
+<!--                        &lt;!&ndash; 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 &ndash;&gt;-->
+<!--                        {# review_list.paginator.count|sub:review_list.start_index|sub:forloop.counter0|add:1 #}-->
+<!--                    </td>-->
                     <td>
                         <a href="{% url 'review:review_detail' review.id %}">{{ review }}</a>
                     </td>
