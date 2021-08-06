@@ -1,14 +1,9 @@
+{% extends 'base.html' %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'bootstrap.min.css' %}"> <!--type="text/css"-->
-<!--static&bootstrap 적용하기-->
+{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Movie review</title>
-    </head>
-    <body>
+
+{% block main %}
         <div class="container my-3">
 
             <h2 class="border-bottom" py-2 >리뷰등록</h2>
@@ -16,10 +11,10 @@
                 {% csrf_token %}
                 {{ form.as_p }}
 
-            </form>
+
             <div class="d-flex flex-row-reverse">
                 <button class="btn btn-primary" type="submit">등록</button>
             </div>
+            </form>
         </div>
-    </body>
-</html>
+{% endblock %}

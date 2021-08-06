@@ -1,6 +1,18 @@
+{% extends 'base.html' %}
 {% load static %}
+{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
 
-<link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+
+{% block main %}
+<header>
+    <div class="navbar navbar-dark bg-dark shadow-sm mb-3">
+        <div class="container d-flex justify-content-between">
+            <a href="/" class="navbar-brand d-flex align-items-center">
+                <strong>게시판</strong>
+            </a>
+        </div>
+    </div>
+</header>
 <div class="container my-3">
     <h2 class="border-bottom" py-2 >게시글 등록 </h2>
     <form method="post">
@@ -9,3 +21,5 @@
         <button class="btn btn-primary" type="submit">등록하기</button>
     </form>
 </div>
+
+{% endblock %}

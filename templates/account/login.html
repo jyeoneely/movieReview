@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
-
-{% block css %}
-<link href="{% static 'css/login.css' %}" rel="stylesheet"/>
-{%endblock%}
+{% load static %}
+{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
 
 {% block main %}
 <form class="box" action="index.html" method="post">

@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-
-{% block css %} <link href="{% static 'css/master.css' %}" rel="stylesheet"/> {%endblock%}
+{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
 
 
 {% block main %}
-
 <div class="row m-0 justify-content-center mt-5 pt-5">
   <div class="col-5 button-1" OnClick="location.href ='{% url 'master:movies' %}'">
     <div class="eff-1"></div>
@@ -16,5 +14,4 @@
     <a href="{% url 'master:users' %}"> 회원 관리 </a>
   </div>
 </div>
-
 {% endblock %}
