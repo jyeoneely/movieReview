@@ -48,20 +48,17 @@ def reviewCreate(request) :
 # 상세리뷰 구현
 def reviewDetail(request,review_id) :
     review = get_object_or_404(Review, pk=review_id)
-    context = {'review': review}
+
+    # 리뷰 Query Set
+    reviewPerPage = Review.objects.all().order_by('-create_date')
+    # for row_num, review in enumerate(reviewPerPage):
+    #     print(row_num, review)                         # row number print/ 디테일 페이지 마지막 넘버만 출력
+
+    context = {
+        'review': review,
+        'reviewPerPage': reviewPerPage
+    }
     return render(request, 'review/review_detail.html', context)
-
-# 유저상세리뷰 구현
-# @login_required(login_url='account:login')
-def reviewUserDetail(request, review_id):
-    review = get_object_or_404(Review, pk=review_id)
-
-    # if request.user != review.author:
-    #     messages.error(request, '수정권한이 없습니다')
-    #     return redirect('review:detail', review_id=review.id)
-
-    context = {'review': review}
-    return render(request, 'review/review_userdetail.html', context)
 
 # 리뷰 수정 구현
 # @login_required(login_url='account:login')
