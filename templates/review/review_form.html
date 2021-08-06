@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
+
 
 
 {% block main %}
-        <div class="container my-3">
+        <div class="container my-3" style="
+            padding-top: 160px;
+            padding-left: 48px;
+            padding-right: 48px;
+            padding-bottom: 160px;
+        ">
 
             <h2 class="border-bottom" py-2 >리뷰등록</h2>
             <form method="post">  <!--동일한 템플릿을 여러 기능에서 함께 사용할 경우 form의 action 속성을 비워둘 수 있음.-->

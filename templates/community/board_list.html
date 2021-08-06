@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
+
 
 
 {% block main %}
-<header>
-    <div class="navbar navbar-dark bg-dark shadow-sm mb-3">
-        <div class="container d-flex justify-content-between">
-            <a href="{% url 'community:post' %}" class="navbar-brand d-flex align-items-center">
-                <strong>게시판</strong>
-            </a>
-        </div>
-    </div>
-</header>
+<!--<header>-->
+<!--    <div class="navbar navbar-dark bg-dark shadow-sm mb-3">-->
+<!--        <div class="container d-flex justify-content-between">-->
+<!--            <a href="{% url 'community:post' %}" class="navbar-brand d-flex align-items-center">-->
+<!--                <strong>게시판</strong>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</header>-->
 <div class="container">
     <table class="table">
         <thead class="thead-light">
@@ -50,7 +50,12 @@
     <div class="row">
         <div class="col-auto mr-auto"></div>
         <div class="col-auto">
-            <a href="{% url 'community:post' %}" class="btn btn-primary" role="button">글쓰기</a>
+            <a href="{% url 'community:post' %}" class="btn btn-primary" role="button" style="
+                padding-top: 15px;
+                padding-bottom: 15px;
+                padding-left: 28px;
+                padding-right: 28px;
+            ">글쓰기</a>
         </div>
     </div>
 </div>

@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
-{%load static%}
+{% load static %}
+
+
+{%block bootstrap%}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
+{%endblock%}
+
+
+
+{%block nav%}
+    {% include 'base-nav.html' %}
+{%endblock%}
 
 
 {% block main %}
