@@ -10,7 +10,6 @@ urlpatterns = [
     path('modify/<int:review_id>/', views.reviewModify, name='review_modify'),  # 리뷰수정
     path('delete/<int:review_id>/', views.reviewDelete, name='review_delete'),  # 리뷰삭제
     path('<int:review_id>/', views.reviewDetail, name='review_detail'),         # 리뷰상세조회
-    path('<int:review_id>/userdetail/', views.reviewUserDetail, name='review_userdetail'),  # 리뷰상세조회(작성자용)
     path('like/<int:review_id>/', views.like_review, name='like_review'),  # 좋아요
     path('unlike/<int:review_id>/', views.unlike_review, name='unlike_review'),  # 싫어요
 ]
