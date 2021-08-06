@@ -37,6 +37,7 @@ def reviewCreate(request) :
         if form.is_valid():
             review = form.save(commit=False)
             review.create_date = timezone.now()
+            review.author_id = 1
             # review.author = request.user              # 회원가입 유저 변수명 받아오기
             review.save()
             return redirect('review:index')
@@ -48,20 +49,28 @@ def reviewCreate(request) :
 # 상세리뷰 구현
 def reviewDetail(request,review_id) :
     review = get_object_or_404(Review, pk=review_id)
-    context = {'review': review}
+    reviewPerPage = Review.objects.order_by('-create_date')
+
+    index = -1
+    review_before = None
+    review_after = None
+    for r in reviewPerPage :
+      index += 1
+      if r.id == review.id:
+          review = r
+          break
+    # 리뷰객체 찾는 인덱스 값
+    if index > 0 :
+        review_before = reviewPerPage[index - 1]
+    if index < len(reviewPerPage)-1 :
+        review_after = reviewPerPage[index + 1]
+
+    context = {
+        'review': review,
+        'review_before': review_before,
+        'review_after': review_after,
+    }
     return render(request, 'review/review_detail.html', context)
-
-# 유저상세리뷰 구현
-# @login_required(login_url='account:login')
-def reviewUserDetail(request, review_id):
-    review = get_object_or_404(Review, pk=review_id)
-
-    # if request.user != review.author:
-    #     messages.error(request, '수정권한이 없습니다')
-    #     return redirect('review:detail', review_id=review.id)
-
-    context = {'review': review}
-    return render(request, 'review/review_userdetail.html', context)
 
 # 리뷰 수정 구현
 # @login_required(login_url='account:login')
