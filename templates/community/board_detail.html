@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
+{% block bootstrap %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
 
 
 {% block main %}
@@ -29,30 +30,37 @@
     </div>
     <div>
         <table>
-            {% if board_before %}
-            <tr>
-                <td>이전글 : </td>
-                <td>
-                    <a href="/community/detail/{{board_before.id}}">{{board_before.title}}</a>
-                </td>
 
-            </tr>
-            {% endif %}
-            {% if board_after %}
             <tr>
-                <td>다음글 : </td>
+                <td>이전글 :</td>
                 <td>
-                    <a href="/community/detail/{{board_after.id}}">{{board_after.title}}</a>
+                    {% if board_before %}
+                    <a href="/community/detail/{{board_before.id}}">{{board_before.title}}</a>
+                    {% else%}
+                    이전글이 없습니다.
+                    {% endif %}
                 </td>
             </tr>
-            {% endif %}
+
+
+            <tr>
+                <td>다음글 :</td>
+                <td>
+                    {% if board_after %}
+                    <a href="/community/detail/{{board_after.id}}">{{board_after.title}}</a>
+                    {% else%}
+                    다음글이 없습니다.
+                    {% endif %}
+                </td>
+            </tr>
+
 
         </table>
     </div>
     <div class="row mt-3 col">
         <div class="form-row float-left"></div>
         <div class="col">
-            <a class="btn btn-info" href="/community" role="button" >목록</a>
+            <a class="btn btn-info" href="/community" role="button">목록</a>
         </div>
 
         <div>
@@ -108,7 +116,8 @@
                     .hidden {
                       display: none;
                     }
-                </style>
+
+        </style>
         <!-- modal button -->
 
         <button class="btn btn-primary" id="open">삭제</button>
@@ -117,7 +126,7 @@
             <div class="modal__overlay"></div>
             <div class="modal__content">
                 <h5>삭제된 게시글은 복구가 불가능합니다.<br/>게시글을 삭제하시겠습니까?</h5>
-                <button id="delete" onclick="deleteHandler()" >삭제</button>
+                <button id="delete" onclick="deleteHandler()">삭제</button>
                 <button id="close">취소</button>
 
             </div>
@@ -141,7 +150,8 @@
                 function deleteHandler() {
                     location.replace("{% url 'community:delete' board.id  %}");
                 }
-                </script>
+
+        </script>
 
     </div>
 

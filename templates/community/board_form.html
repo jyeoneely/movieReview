@@ -9,6 +9,12 @@
     <h2 class="border-bottom" py-2 >게시글</h2>
     <form method="post">
         {% csrf_token %}
+
+        {%if request.account.is_authenticated%}
+        <input type="hidden" value="{{request.account.id}}">
+        {%else%}
+        <input type="hidden" value="1">
+        {%endif%}
         {{ form.as_p }}
         <button class="btn btn-primary" type="submit">등록하기</button>
     </form>

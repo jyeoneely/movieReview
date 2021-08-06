@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
+{% block bootstrap %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
 
 
 {% block main %}
 <div class="container my-3">
-    <h2 class="border-bottom" py-2 >게시글 수정</h2>
+    <h2 class="border-bottom" py-2>게시글 수정</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
