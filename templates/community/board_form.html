@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
 <div class="container my-3">
-    <h2 class="border-bottom" py-2 >게시글 등록</h2>
+    <h2 class="border-bottom" py-2 >게시글</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
