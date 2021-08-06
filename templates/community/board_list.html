@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+{% load board_filter %}
 {% load static %}
-{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
+{% block bootstrap %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
 
 
 {% block main %}
@@ -25,17 +27,17 @@
         </tr>
         </thead>
         <tbody>
-        {% for board in boards %}
+        {% if board_list %} {% for board in board_list %}
         <tr class="text-center">
-            <th scope="row">
-                <span>{{ board.id }}</span>
-            </th>
+            <td>{{ forloop.counter }}</td>
+<!--            <th scope="row">-->
+<!--                <span>{{ board.id }}</span>-->
+<!--            </th>-->
             <td>
                 <span>{{ board.content_type }}</span>
             </td>
             <td>
                 <a href="{% url 'community:detail' board.id %}">{{ board }}</a>
-
             </td>
             <td>
                 <span>{{ board.writer }}</span>
@@ -44,7 +46,10 @@
                 <span>{{ board.created_date | date:"Y-m-d h:i" }}</span>
             </td>
         </tr>
-        {% endfor %}
+        {% endfor %} {% else %}
+
+        <li>게시글이 없습니다.</li>
+        {% endif %}
         </tbody>
     </table>
     <div class="row">
@@ -54,42 +59,41 @@
         </div>
     </div>
     <!-- -------------------- 페이징처리 시작 -------------------- -->
-            <ul class="pagination justify-content-center">
-                <!-- 이전페이지 -->
-                {% if review_list.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ review_list.previous_page_number }}"><<</a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#"><<</a>
-                </li>
-                {% endif %}
-                <!-- -------------------- 페이지리스트 -------------------- -->
-                    {% for page_number in review_list.paginator.page_range %}
-                    {% if page_number >= review_list.number|add:-5 and page_number <= review_list.number|add:5 %}
-                    {% if page_number == review_list.number %}
-                    <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+    <ul class="pagination justify-content-center">
+        <!-- 이전페이지 -->
+        {% if board_list.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ board_list.previous_page_number }}"><</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#"><</a>
+        </li>
+        {% endif %}
+        <!-- -------------------- 페이지리스트 -------------------- -->
+        {% for page_number in board_list.paginator.page_range %}
+            {% if page_number >= board_list.number|add:-5 and page_number <= board_list.number|add:5 %}
+                {% if page_number == board_list.number %}<li class="page-item active" aria-current="page">
+                    <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
                     </li>
                     {% else %}
                     <li class="page-item">
                         <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
                     </li>
-                    {% endif %}
                 {% endif %}
-                {% endfor %}
-                <!-- -------------------- 다음페이지 -------------------- -->
-                {% if review_list.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ review_list.next_page_number }}">>></a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">>></a>
-                </li>
-                {% endif %}
-            </ul>
-            <!-- --------------------- 페이징처리 끝 -------------------- -->
+            {% endif %}
+        {% endfor %}
+        <!-- -------------------- 다음페이지 -------------------- -->
+        {% if board_list.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ board_list.next_page_number }}">></a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">></a>
+        </li>
+        {% endif %}
+    </ul>
+    <!-- --------------------- 페이징처리 끝 -------------------- -->
 </div>
 {% endblock %}

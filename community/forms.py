@@ -11,21 +11,21 @@ class BoardForm(forms.ModelForm):
         )
 
 
-        fields = ['writer', 'title', 'content_type', 'content', 'created_date']
+        fields = ['title', 'content_type', 'content',]
         widgets = {
-            'writer': forms.TextInput(attrs={'class': 'form-control'}),
+
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'content_type': forms.Select(attrs={'class': 'form-select'}, choices=CHOICES),
             'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 10}),
-            'created_date': forms.DateTimeInput(attrs={'class': 'form-control'}),
+
 
         }
         labels = {
-            'writer': '작성자',
+
             'title': '제목',
             'content_type': '머리글',
             'content': '내용',
-            'created_date': '작성일',
+
 
         }
 

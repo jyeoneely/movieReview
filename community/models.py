@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.conf import settings
 
 class Board(models.Model):
     TYPE_CHOICES = (
@@ -9,7 +10,7 @@ class Board(models.Model):
         ('자유글','자유글'),
     )
     title = models.CharField(max_length=200, null=False)
-    writer = models.CharField(max_length=20, null=False)
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content_type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='----')
     content = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
