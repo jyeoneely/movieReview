@@ -3,10 +3,8 @@
 {% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
 
 {% block main %}
-<form class="box" action="index.html" method="post">
-    <h1>Login</h1>
-    <input type="text" name="" placeholder="Username">
-    <input type="password" name="" placeholder="Password">
-    <input type="submit" name="" value="Login">
+<form class="box" method="post" class="post-form my-3" >
+    {% csrf_token %}
+    {{ form.as_p }}
 </form>
 {%endblock%}
