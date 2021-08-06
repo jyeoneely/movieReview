@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from django.utils.translation import ugettext_lazy as _
 
 from .models import User, UserManager
 
@@ -8,43 +7,43 @@ from .models import User, UserManager
 class UserCreationForm(forms.ModelForm):
     # 사용자 생성 폼
     email = forms.EmailField(
-        label=_('Email'),
+        label='Email',
         required=True,
         widget=forms.EmailInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': _('Email address'),
+                'placeholder': 'Email address',
                 'required': 'True',
             }
         )
     )
     nickname = forms.CharField(
-        label=_('Nickname'),
+        label='Nickname',
         required=True,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': _('Nickname'),
+                'placeholder': 'Nickname',
                 'required': 'True',
             }
         )
     )
     password1 = forms.CharField(
-        label=_('Password'),
+        label='Password',
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': _('Password'),
+                'placeholder': 'Password',
                 'required': 'True',
             }
         )
     )
     password2 = forms.CharField(
-        label=_('Password confirmation'),
+        label='Password confirmation',
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': _('Password confirmation'),
+                'placeholder': 'Password confirmation',
                 'required': 'True',
             }
         )
@@ -75,7 +74,7 @@ class UserCreationForm(forms.ModelForm):
 class UserChangeForm(forms.ModelForm):
     # 비밀번호 변경 폼
     password = ReadOnlyPasswordHashField(
-        label=_('Password')
+        label='Password'
     )
 
     class Meta:
@@ -87,3 +86,7 @@ class UserChangeForm(forms.ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
+
+
+class LoginForm(forms.ModelForm):
+    pass
