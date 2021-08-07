@@ -12,7 +12,6 @@ class UserCreationForm(forms.ModelForm):
         widget=forms.EmailInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Email address',
                 'required': 'True',
             }
         )
@@ -23,7 +22,6 @@ class UserCreationForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Nickname',
                 'required': 'True',
             }
         )
@@ -33,7 +31,6 @@ class UserCreationForm(forms.ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Password',
                 'required': 'True',
             }
         )
@@ -43,7 +40,6 @@ class UserCreationForm(forms.ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Password confirmation',
                 'required': 'True',
             }
         )

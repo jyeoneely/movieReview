@@ -5,18 +5,40 @@ from .models import Movie
 from .forms import MovieForm
 from django.views import generic
 
+"""
+def index(request):
+    page = request.GET.get('page', '1')
+    movie_list = Movie.objects.order_by('-pub_date', 'title')
+    paginator = Paginator(movie_list, 10)
+    page_obj = paginator.get_page(page)
 
-# def index(request):
-#     page = request.GET.get('page', '1')
-#     movie_list = Movie.objects.order_by('-pub_date', 'title')
-#     paginator = Paginator(movie_list, 10)
-#     page_obj = paginator.get_page(page)
-#     context = {
-#         'movie_list': page_obj
-#     }
-#     return render(request, 'movie/movie_list.html', context)
+    context = {
+        'movie_list': page_obj,
+    }
+    return render(request, 'movie/movie_list.html', context)
+"""
+
+
 class IndexView(generic.ListView):
     paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        paginator = context['paginator']
+        page_numbers_range = 10
+        max_index = len(paginator.page_range)
+
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+
+        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+
+        page_range = paginator.page_range[start_index:end_index]
+        context['page_range'] = page_range
+        return context
 
     def get_queryset(self):
         return Movie.objects.order_by("-pub_date", 'title')
