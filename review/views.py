@@ -71,18 +71,6 @@ def reviewDetail(request,review_id) :
     }
     return render(request, 'review/review_detail.html', context)
 
-# 유저상세리뷰 구현
-# @login_required(login_url='account:login')
-def reviewUserDetail(request, review_id):
-    review = get_object_or_404(Review, pk=review_id)
-
-    # if request.user != review.author:
-    #     messages.error(request, '수정권한이 없습니다')
-    #     return redirect('review:detail', review_id=review.id)
-
-    context = {'review': review}
-    return render(request, 'review/review_userdetail.html', context)
-
 # 리뷰 수정 구현
 # @login_required(login_url='account:login')
 def reviewModify(request,review_id) :
