@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import LoginForm
+from .forms import UserCreationForm
 from django.contrib import auth
+from django.contrib.auth import authenticate, login
 
 # Create your views here.
 def index(request):
@@ -10,21 +11,21 @@ def index(request):
     else:
         return redirect('account:login')
 
-
-def login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        email = request.POST['email']
-        password = request.POST['password']
-        user = auth.authenticate(request, email=email, password=password)
-        if user is not None:
-            auth.login(request, user)
-            return redirect('/')
-        else:
-            return render(request, 'account/login.html', {'error' : '아이디 또는 패스워드를 확인해주세요.'})
+def signup(request):
+    """
+    계정생성
+    """
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('email')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)  # 사용자 인증
+            login(request, user)  # 로그인
+            return redirect('master:index')
     else:
-        form = LoginForm()
-        context = {'form': form}
-    return render(request, 'account/login.html', context)
-
+        form = UserCreationForm()
+    context = {'form': form}
+    return render(request, 'account/signup.html', context)
 
