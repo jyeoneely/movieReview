@@ -1,4 +1,4 @@
-
+{{ user.username }} 프로필 페이지입니다.
 {% extends 'base.html' %}
 {% load static %}
 {% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
@@ -6,9 +6,9 @@
 {% block main %}
 
 
-{{request.user.email}}
-<br>
-{{request.user.nickname}}
+    {{request.user.email}}
+    <br>
+    {{request.user.nickname}}
 
 
 {% endblock %}

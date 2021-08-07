@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
+
+
+{% block main %}
+        <div class="container my-3">
+
+        <h1 class="border-bottom">{{ review }}</h1>
+            <div class="d-flex p-2 bd-highlight">
+                <!-- ----------------------------별점영역------------------------------------ -->
+                <div class="me-auto d-flex align-items-stretch">
+                    <span>
+                        {% if review.star == 0 %}
+                            <h4>별점 : ☆☆☆☆☆</h4>
+                        {% elif review.star == 1 %}
+                            <h4>별점 : ★☆☆☆☆</h4>
+                        {% elif review.star == 2 %}
+                            <h4>별점 : ★★☆☆☆</h4>
+                        {% elif review.star == 3 %}
+                            <h4>별점 : ★★★☆☆</h4>
+                        {% elif review.star == 4 %}
+                            <h4>별점 : ★★★★☆</h4>
+                        {% else %}
+                            <h4>별점 : ★★★★★</h4>
+                        {% endif %}
+                    </span>
+                </div>
+                <!-- ----------------------------------------------------------------------- -->
+                <!-- ----------------------------작성자영역------------------------------------ -->
+                <div class="align-self-end">
+                <span>작성자 {{ review.author }}</span>
+                <!-- ----------------------------------------------------------------------- -->
+                <span> | </span>
+                <!-- ----------------------------작성일자영역------------------------------------ -->
+                <span>
+                    {% if review.modify_date == null %}
+                        <a>작성일자 {{ review.create_date }}</a>
+                    {% else %}
+                        <a>마지막 수정일자{{ review.modify_date }}</a>
+                    {% endif %}
+                </span>
+                <!-- ----------------------------------------------------------------------- -->
+                <span> | </span>
+                <!-- ----------------------------조회수영역------------------------------------ -->
+                <span><input type="hidden" value="{{ review.update_counter }}">조회수{{ review.review_hit }}</span>
+                <!-- ----------------------------------------------------------------------- -->
+                </div>
+            </div>
+            <!-- ----------------------------리뷰내용영역------------------------------------ -->
+            <div class="card my-3">
+                <div class="card-body">
+                        <div class="card-text" style="white-space: pre-line;">{{ review.content }}</div>
+                </div>
+            </div>
+        <!-- ----------------------------목록영역------------------------------------ -->
+        <div class="d-flex bd-highlight mb-3">
+            <div class="me-auto p-2 bd-highlight">
+                <span><a class="btn btn-primary" href="{% url 'review:index' %}" role="button">목록</a></span>
+            </div>
+        <!-- ----------------------------------------------------------------------- -->
+        <!-- ----------------------------수정, 삭제 영역------------------------------------ -->
+            <!--템플렛 태그로 추가 if request.user == question.author-->
+            <div class="p-2 bd-highlight">
+                <span><a class="btn btn-primary" href="{% url 'review:review_modify' review.id  %}" role="button">수정</a></span>
+            </div>
+            <!-- <span><a class="btn btn-primary" href="{% url 'review:review_delete' review.id  %}" role="button">삭제</a></span>-->
+            <!--endif-->
+
+          <!-- --------------------삭제 경고창을 위한 모달 구현 영역-------------------- -->
+            <!-- modal style -->
+            <div class="p-2 bd-highlight">
+                <style>
+                    button {
+                      all: unset;
+                      background-color: steelblue;
+                      color: white;
+                      padding: 5px 20px;
+                      border-radius: 5px;
+                      cursor: pointer;
+                      font-size: 20px;
+                    }
+                    .modal {
+                      position: fixed;
+                      top: 0;
+                      left: 0;
+                      width: 100%;
+                      height: 100%;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    }
+                    .modal__overlay {
+                      background-color: rgba(0, 0, 0, 0.6);
+                      width: 100%;
+                      height: 100%;
+                      position: absolute;
+                    }
+                    .modal__content {
+                      width: 25%;
+                      background-color:white;
+                      text-align: center;
+                      padding: 50px 70px;
+                      position: relative;
+                      border-radius: 10px;
+                      top: 0px;
+                      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+                    }
+                    h5 {
+                      margin-bottom: 20px;
+                    }
+                    .hidden {
+                      display: none;
+                    }
+                </style>
+
+                <!-- modal button -->
+                  <button class="btn btn-primary" id="open">삭제</button>
+                  <div class="modal hidden">
+                    <div class="modal__overlay"></div>
+                    <div class="modal__content">
+                      <h5>삭제된 리뷰는 복구가 불가능합니다.<br/>리뷰를 삭제하시겠습니까?</h5>
+                          <button id="delete" onclick="deleteHandler()">삭제</button>
+                          <button id="close">취소</button>
+                    </div>
+                  </div>
+
+                <!-- modal javascript -->
+                <script>
+                const openBtn = document.getElementById('open');
+                const closeBtn = document.getElementById('close');
+                const modal = document.querySelector('.modal');
+                const overlay = document.querySelector('.modal__overlay');
+                const openModal = () => {
+                  modal.classList.remove('hidden');
+                }
+                const closeModal = () => {
+                  modal.classList.add('hidden');
+                }
+                openBtn.addEventListener('click', openModal);
+                closeBtn.addEventListener('click', closeModal);
+                overlay.addEventListener('click', closeModal);
+
+                function deleteHandler() {
+                    location.replace("{% url 'review:review_delete' review.id  %}");
+                }
+                </script>
+            </div>
+          <!-- ------------------------------------------------------------ -->
+        </div>
+        </div>
+{% endblock %}
