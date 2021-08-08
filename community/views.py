@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 from community.forms import BoardForm
 from community.models import *
+from django.db.models import Q
 
 
 # Create your views here.
@@ -22,6 +23,12 @@ def index(request):
     # 페이징처리
     paginator = Paginator(board_list, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
+
+    # max_index = len(paginator.page_range)
+    # page = self.request.Get.get('page')
+    # current_page = int(page) if page else 1
+    #
+    # start_index =  int((current_page-1) / page_numbers_range) * page_number
 
     context = {'board_list': page_obj}
     return render(request, 'community/board_list.html', context)
@@ -55,9 +62,9 @@ def board_detail(request, post_id):
         if b.id == post_id:
             board = b
             break
-    if index != 0:
+    if index > 0:
         board_before = boardPerPage[index - 1]
-    if index != -1:
+    if index < len(boardPerPage)-1:
         board_after = boardPerPage[index + 1]
 
     context = {
@@ -90,3 +97,10 @@ def board_modify(request, post_id):
         form = BoardForm(instance=board)
     context = {'form': form}
     return render(request, 'community/board_modify.html', context)
+
+
+# 글 검색기능
+
+#파일 업로드
+
+#조회수
