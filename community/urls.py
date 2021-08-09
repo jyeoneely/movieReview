@@ -1,7 +1,8 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
-
+from django.conf.urls.static import static
+from django.conf import settings
 app_name = 'community'
 urlpatterns = [
     #path('admin/', admin.site.urls),
@@ -12,3 +13,4 @@ urlpatterns = [
     path('delete/<int:post_id>', views.board_delete, name='delete'), #삭제
 
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

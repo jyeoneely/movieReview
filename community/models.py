@@ -15,6 +15,7 @@ class Board(models.Model):
     content = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     modified_date = models.DateTimeField(auto_now=True)
+    file_image = models.ImageField(upload_to='media/', blank=True, null=True)
     board_hit = models.PositiveIntegerField(default=0)
 
     def __str__(self):

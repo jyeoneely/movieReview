@@ -19,17 +19,10 @@ def index(request):
     page = request.GET.get('page', '1')
     # 조회
     board_list = Board.objects.order_by('-created_date')
-
+    page
     # 페이징처리
     paginator = Paginator(board_list, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
-
-    # max_index = len(paginator.page_range)
-    # page = self.request.Get.get('page')
-    # current_page = int(page) if page else 1
-    #
-    # start_index =  int((current_page-1) / page_numbers_range) * page_number
-
     context = {'board_list': page_obj}
     return render(request, 'community/board_list.html', context)
 
@@ -37,7 +30,7 @@ def index(request):
 # 글 작성
 def board_post(request):
     if request.method == 'POST':
-        form = BoardForm(request.POST)
+        form = BoardForm(request.POST, request.FILES)
         if form.is_valid():
             board = form.save(commit=False)
             board.writer_id = 1
@@ -87,7 +80,7 @@ def board_delete(request, post_id):
 def board_modify(request, post_id):
     board = get_object_or_404(Board, id=post_id)
     if request.method == "POST":
-        form = BoardForm(request.POST, instance=board)
+        form = BoardForm(request.POST,  request.FILES, instance=board)
         if form.is_valid():
             board = form.save(commit=False)
             board.modified_date = timezone.now()

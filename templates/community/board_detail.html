@@ -2,21 +2,28 @@
 {% load static %}
 
 {% block main %}
+{{board.update_counter}}
 <div class="container">
     <div class="card">
         <div class="card-body">
             <h2 class="card-title">{{ board.title }}</h2>
-            <p class="card-text">작성자 : {{ board.writer }}</p>
-            <p class="card-text">글머리 : {{ board.content_type }}</p>
+            <p class="card-text"><small>작성자 : {{ board.writer }}</small></p>
+            <p class="card-text"><small>글머리 : {{ board.content_type }}</small></p>
+            <p class="card-text">{{ board.content }}</p>
             <p class="card-text"><small class="text-muted">작성일 : {{ board.created_date | date:"Y-m-d h:i" }}</small></p>
+            <p class="card-text"><small class="text-muted">조회수 : {{ board.board_hit }}</small></p>
+            {% if board.file_image %}
+            첨부파일
+            <a href = "{{board.file_image.url}}" download>
+            <img src= "{{ board.file_image.url }}" height="100"></a>
+            {% endif %}
         </div>
     </div>
     <div class="card">
     <div>
-        <table>
-
-            <tr>
-                <td>이전글 :</td>
+        <table border="1" cellspacing="5">
+            <tr align="center" bgcolor="#D3D3D3" >
+                <td>이전글 : </td>
                 <td>
                     {% if board_before %}
                     <a href="/community/detail/{{board_before.id}}">{{board_before.title}}</a>
@@ -25,10 +32,8 @@
                     {% endif %}
                 </td>
             </tr>
-
-
-            <tr>
-                <td>다음글 :</td>
+            <tr align="center" bgcolor="D3D3D3" >
+                <td>다음글 : </td>
                 <td>
                     {% if board_after %}
                     <a href="/community/detail/{{board_after.id}}">{{board_after.title}}</a>

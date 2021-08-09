@@ -11,9 +11,9 @@
 <!--        </div>-->
 <!--    </div>-->
 <!--</header>-->
-{% if q %}
-<h5>'{{ q }}' 검색 결과입니다.</h5>
-{% endif %}
+<!--{% if q %}-->
+<!--<h5>'{{ q }}' 검색 결과입니다.</h5>-->
+<!--{% endif %}-->
 <div class="container">
     <table class="table">
         <thead class="thead-light">
@@ -23,6 +23,7 @@
             <th scope="col">제목</th>
             <th scope="col">작성자</th>
             <th scope="col">작성일</th>
+            <th scope="col">조회수</th>
         </tr>
         </thead>
         <tbody>
@@ -33,11 +34,7 @@
                 <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
                 {{ board_list.paginator.count|sub:board_list.start_index|sub:forloop.counter0|add:1 }}
             </td>
-<!--            <td>{{ forloop.counter }}</td>-->
-<!--            <th scope="row">-->
-<!--                <span>{{ board.id }}</span>-->
-<!--            </th>-->
-<!--            <td>-->
+            <td>
                 <span>{{ board.content_type }}</span>
             </td>
             <td>
@@ -48,6 +45,9 @@
             </td>
             <td>
                 <span>{{ board.created_date | date:"Y-m-d h:i" }}</span>
+            </td>
+            <td>
+                <span>{{ board.board_hit}}</span>
             </td>
         </tr>
         {% endfor %}
@@ -65,23 +65,33 @@
     </div>
     <!-- -------------------- 페이징처리 시작 -------------------- -->
     <ul class="pagination justify-content-center">
+<!--        {% if board_list.paginator.num_pages > 10 %}-->
+<!--        &lt;!&ndash; 맨앞으로 &ndash;&gt;-->
+<!--        <li class="page-item">-->
+<!--            <a class="page-link" href="?page=1">처음으로</a>-->
+<!--        </li>-->
+<!--        {% endif %}-->
+
+        <!-- 이전페이지 -->
+
         {% if board_list.has_previous %}
-        <!-- 맨앞으로 -->
-        <li class="page-item">
+         <li class="page-item">
             <a class="page-link" href="?page=1">처음으로</a>
         </li>
-        <!-- 이전페이지 -->
         <li class="page-item">
             <a class="page-link" href="?page={{ board_list.previous_page_number }}">이전</a>
         </li>
         {% else %}
+         <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">처음으로</a>
+        </li>
         <li class="page-item disabled">
             <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
         </li>
         {% endif %}
         <!-- -------------------- 페이지리스트 -------------------- -->
         {% for page_number in board_list.paginator.page_range %}
-
+        {# if page_number >= board_list.number|add:-1 and page_number <= board_list.number|add:1 #}
                 {% if page_number == board_list.number %}
                     <li class="page-item active" aria-current="page">
                     <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
@@ -97,13 +107,16 @@
         <li class="page-item">
             <a class="page-link" href="?page={{ board_list.next_page_number }}">다음</a>
         </li>
-         <!-- -------------------- 마지막페이지 -------------------- -->
         <li class="page-item">
             <a class="page-link" href="?page={{ board_list.paginator.num_pages }}">마지막으로</a>
         </li>
         {% else %}
         <li class="page-item disabled">
             <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+         <!-- -------------------- 마지막페이지 -------------------- -->
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">마지막으로</a>
         </li>
         {% endif %}
     </ul>
