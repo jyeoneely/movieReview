@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
+
 
 
 {% block main %}
@@ -73,13 +73,17 @@
                 <style>
                     button {
                       all: unset;
-                      background-color: steelblue;
+                      background-color: #f5bc10;
                       color: white;
                       padding: 5px 20px;
                       border-radius: 5px;
                       cursor: pointer;
-                      font-size: 20px;
+                      font-size: 10px;
                     }
+                    .button-hover {
+                      background-color: #f08200;
+                    }
+
                     .modal {
                       position: fixed;
                       top: 0;

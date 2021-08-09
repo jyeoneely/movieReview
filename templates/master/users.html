@@ -37,7 +37,8 @@
           data-pk="{{user.pk}}">비활성화</button></td>
       {% else %}
       <td class="col-4 col-md-2 text-center"><button class="clickActive square_btn"
-          style="font-size: 1vw;" data-pk="{{user.pk}}">활성화</button></td>
+                                                     data-pk="{{user.pk}}">활성화</button>
+      </td>
       {% endif %}
       {% endif %}
     </tr>
@@ -45,8 +46,5 @@
   </tbody>
 </table>
 
-<div class="d-flex justify-content-center my-5">
-
-</div>
 
 {% endblock %}

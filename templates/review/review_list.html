@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load review_filter %}
-{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
+
 
 
 {% block main %}
@@ -46,7 +46,7 @@
                             <p>★★★★★</p>
                         {% endif %}
                     </td>
-                    <td>{{ review.author }}</td>
+                    <td><!--{{ review.author }}--></td>
                     <td>
                         {% if review.modify_date == null %}
                             <p>{{ review.create_date }}</p>
@@ -67,7 +67,7 @@
                 </tbody>
             </table>
             <div class="d-flex flex-row-reverse">
-                <a class="btn btn-primary" href="{% url 'review:review_create' %}" role="button" style="padding: 15px 28px">리뷰작성</a>
+                <a class="btn btn-primary" href="{% url 'review:review_create' %}" role="button">리뷰작성</a>
             </div>
 
         <!-- -------------------- 페이징처리 시작 -------------------- -->

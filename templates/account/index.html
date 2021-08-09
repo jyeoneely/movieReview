@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
+
 
 {% block main %}
 
 
-
+ <div class="container my-4">
     {{ user.nickname }} 프로필 페이지입니다.
 
     {{request.user.email}}
@@ -14,7 +14,7 @@
 
 
     <a class="nav-link" href="{% url 'account:logout' %}">{{ user.email }} 로그아웃</a>
-
+ </div>
 
 
 {% endblock %}
