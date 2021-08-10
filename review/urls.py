@@ -5,7 +5,7 @@ from review import views
 
 app_name = 'review'
 urlpatterns = [
-    path('', views.index, name='index'),                                        # 홈(리뷰목록)
+    path('', views.IndexView.as_view(), name='index'),                                        # 홈(리뷰목록)
     path('create/', views.reviewCreate, name='review_create'),                  # 리뷰등록
     path('modify/<int:review_id>/', views.reviewModify, name='review_modify'),  # 리뷰수정
     path('delete/<int:review_id>/', views.reviewDelete, name='review_delete'),  # 리뷰삭제

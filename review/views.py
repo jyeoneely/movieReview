@@ -7,9 +7,12 @@ from django.core.paginator import Paginator
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views import generic
+from django.db.models import Q
 
 # 리뷰홈(목록) 구현
-def index(request) :
+'''
+def index(request):
     # 입력 파라미터
     page = request.GET.get('page', '1')  # 페이지
 
@@ -20,16 +23,44 @@ def index(request) :
     paginator = Paginator(review_list, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
 
-    context = {'review_list': page_obj}
+    context = {
+        'review_list': page_obj,
+    }
     return render(request, 'review/review_list.html', context)
 
     # review_list = Review.objects.order_by('-create_date')
     # context = {'review_list': review_list}
     # return render(request, 'review/review_list.html', context)
+'''
+
+class IndexView(generic.ListView):
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        paginator = context['paginator']
+        page_numbers_range = 10
+        max_index = len(paginator.page_range)
+
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+
+        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+
+        page_range = paginator.page_range[start_index:end_index]
+        context['page_range'] = page_range
+        return context
+
+    def get_queryset(self):
+        return Review.objects.order_by("-create_date")  # page_obj
+
 
 # 리뷰등록 구현
 # @login_required(login_url='account:login')
-def reviewCreate(request) :
+def reviewCreate(request):
     if request.method == 'POST':
         # if not request.user.is_authenticated:
         #     return redirect('accounts:login') 로그인 후 리뷰등록
@@ -37,7 +68,7 @@ def reviewCreate(request) :
         if form.is_valid():
             review = form.save(commit=False)
             review.create_date = timezone.now()
-            # review.author = request.user              # 회원가입 유저 변수명 받아오기
+            review.author = request.user              # 회원가입 유저 변수명 받아오기
             review.save()
             return redirect('review:index')
     else:
@@ -46,20 +77,20 @@ def reviewCreate(request) :
     return render(request, 'review/review_form.html', context)
 
 # 상세리뷰 구현
-def reviewDetail(request,review_id) :
+def reviewDetail(request,review_id):
     review = get_object_or_404(Review, pk=review_id)
     reviewPerPage = Review.objects.order_by('-create_date')
 
     index = -1
     review_before = None
     review_after = None
-    for r in reviewPerPage :
+    for r in reviewPerPage:
       index += 1
       if r.id == review.id:
           review = r
           break
     # 리뷰객체 찾는 인덱스 값
-    if index > 0 :
+    if index > 0:
         review_before = reviewPerPage[index - 1]
     if index < len(reviewPerPage)-1 :
         review_after = reviewPerPage[index + 1]
@@ -73,7 +104,7 @@ def reviewDetail(request,review_id) :
 
 # 리뷰 수정 구현
 # @login_required(login_url='account:login')
-def reviewModify(request,review_id) :
+def reviewModify(request,review_id):
     review = get_object_or_404(Review, pk=review_id)
 
     #if request.user != review.author:
@@ -94,7 +125,7 @@ def reviewModify(request,review_id) :
 
 # user detail delete 구현
 # @login_required(login_url='account:login')
-def reviewDelete(request, review_id) :
+def reviewDelete(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
     #if request.user != review.author:
     #    messages.error(request, '삭제권한이 없습니다')
@@ -103,27 +134,25 @@ def reviewDelete(request, review_id) :
     return redirect('review:index')
 
 # like 구현
-#@login_required(login_url='account:login')
+@login_required(login_url='account:login')
 def like_review(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
-    #if request.user == review.author:
-    #    messages.error(request, '본인이 작성한 글은 추천할수 없습니다')
-    #else:
-    review.like_review += 1
-    # review.like_review = review.like_review(request) + 1  : 가능
-    # review.like_review.add(request) : 점프투장고ver
-    review.save()
+    if request.user == review.author:
+        messages.error(request, '본인이 작성한 글은 추천할수 없습니다')
+        print(1111)
+    else:
+        review.like_review.add(request)  # 점프투장고ver
+        print(2222)
     return redirect('review:review_detail', review_id=review.id)
 
 # unlike 구현
-# @login_required(login_url='common:login')
+@login_required(login_url='account:login')
 def unlike_review(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
-    #if request.user == review.author:
-    #    messages.error(request, '본인이 작성한 글은 추천할수 없습니다')
-    #else:
-    review.unlike_review += 1
-    review.save()
+    if request.user == review.author:
+        messages.error(request, '본인이 작성한 글은 비추천할수 없습니다')
+    else:
+        review.like_review.add(request)
     return redirect('review:review_detail', review_id=review.id)
 
 
