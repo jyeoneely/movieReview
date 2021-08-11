@@ -59,13 +59,13 @@
             </tr>
             {% endfor %}
             {% else %}
-            {% if q %}          <!-- 검색어가 있어 q가 context로 넘어오면 검색결과가 없음 -->
+            {% if q %}
             <tr class="text-center">
                 <td colspan="6">
                     일치하는 검색 결과가 없습니다.
                 </td>
             </tr>
-            {% else %}          <!-- q가 없으면 검색어가 아니며 게시글이 존재하지 않으므로 게시글 미작성 -->
+            {% else %}
             <tr class="text-center">
                 <td colspan="6">
                     작성된 게시글이 없습니다.
