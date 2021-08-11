@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views import generic
 from django.db.models import Q
+from account.models import User
 
 # 리뷰홈(목록) 구현
 '''
@@ -59,11 +60,11 @@ class IndexView(generic.ListView):
 
 
 # 리뷰등록 구현
-# @login_required(login_url='account:login')
+@login_required(login_url='account:login')
 def reviewCreate(request):
     if request.method == 'POST':
-        # if not request.user.is_authenticated:
-        #     return redirect('accounts:login') 로그인 후 리뷰등록
+        if not request.user.is_authenticated:
+            return redirect('accounts:login') # 로그인 후 리뷰등록
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
@@ -103,13 +104,9 @@ def reviewDetail(request,review_id):
     return render(request, 'review/review_detail.html', context)
 
 # 리뷰 수정 구현
-# @login_required(login_url='account:login')
+@login_required(login_url='account:login')
 def reviewModify(request,review_id):
     review = get_object_or_404(Review, pk=review_id)
-
-    #if request.user != review.author:
-    #    messages.error(request, '수정권한이 없습니다')
-    #    return redirect('review:detail', review_id=review.id)
 
     if request.method == "POST":
         form = ReviewForm(request.POST, instance=review)
@@ -124,12 +121,10 @@ def reviewModify(request,review_id):
     return render(request, 'review/review_form.html', context)
 
 # user detail delete 구현
-# @login_required(login_url='account:login')
+@login_required(login_url='account:login')
 def reviewDelete(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
-    #if request.user != review.author:
-    #    messages.error(request, '삭제권한이 없습니다')
-    #    return redirect('review:detail', review_id=review.id)
+
     review.delete()
     return redirect('review:index')
 
@@ -137,22 +132,20 @@ def reviewDelete(request, review_id):
 @login_required(login_url='account:login')
 def like_review(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
-    if request.user == review.author:
-        messages.error(request, '본인이 작성한 글은 추천할수 없습니다')
-        print(1111)
+    if review.like_review.filter(pk=request.user.pk).exists():
+        review.like_review.remove(request.user)
     else:
-        review.like_review.add(request)  # 점프투장고ver
-        print(2222)
+        review.like_review.add(request.user)
     return redirect('review:review_detail', review_id=review.id)
 
 # unlike 구현
 @login_required(login_url='account:login')
 def unlike_review(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
-    if request.user == review.author:
-        messages.error(request, '본인이 작성한 글은 비추천할수 없습니다')
+    if review.unlike_review.filter(pk=request.user.pk).exists():
+        review.unlike_review.remove(request.user)
     else:
-        review.like_review.add(request)
+        review.unlike_review.add(request.user)
     return redirect('review:review_detail', review_id=review.id)
 
 

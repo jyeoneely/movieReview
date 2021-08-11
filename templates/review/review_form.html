@@ -6,18 +6,12 @@
 {% block main %}
         <div class="container my-3">
 
-            <h2 class="border-bottom" py-2 >리뷰등록</h2>
+            <h2 class="border-bottom">리뷰등록</h2>
             <form method="post">  <!--동일한 템플릿을 여러 기능에서 함께 사용할 경우 form의 action 속성을 비워둘 수 있음.-->
                 {% csrf_token %}
-
-                {% if request.account.is_authenticated %}
-                <input type="hidden" value="{{request.account.username}}">
-                {% else %}
-                <input type="hidden" value="1">
-                {% endif %}
                 {{ form.as_p }}
-                <div class="d-flex flex-row-reverse">
-                    <button class="btn btn-primary" type="submit">등록</button>
+                <div>
+                    <button type="submit" class="btn btn-primary">등록</button>
                 </div>
             </form>
         </div>

@@ -29,3 +29,4 @@ class ReviewForm(forms.ModelForm):
             'content': '내용',
             'star': '별점',
         }
+
