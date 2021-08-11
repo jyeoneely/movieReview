@@ -7,24 +7,108 @@ from django.urls import reverse
 from django.utils import timezone
 from community.forms import BoardForm
 from community.models import *
-from django.db.models import Q
+from django.db.models import Q, Count
+from django.views import generic
 
 
 # Create your views here.
 # 글 목록
-def index(request):
-    # boards = {'boards': Board.objects.order_by('-created_date')}
-    # return render(request, 'community/board_list.html', boards)
+# def index(request):
+#     # boards = {'boards': Board.objects.order_by('-created_date')}
+#     # return render(request, 'community/board_list.html', boards)
+#
+#     page = request.GET.get('page', '1')
+#     # 조회
+#     board_list = Board.objects.order_by('-created_date')
+#
+#     # 페이징처리
+#     paginator = Paginator(board_list, 10)  # 페이지당 10개씩 보여주기
+#     page_obj = paginator.get_page(page)
+#     context = {'board_list': page_obj,}
+#     return render(request, 'community/board_list.html', context)
+# class IndexView(generic.ListView):
+#     paginate_by = 10
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(IndexView, self).get_context_data(**kwargs)
+#         paginator = context['paginator']
+#         page_numbers_range = 10
+#         max_index = len(paginator.page_range)
+#
+#         page = self.request.GET.get('page')
+#         current_page = int(page) if page else 1
+#
+#         start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+#         end_index = start_index + page_numbers_range
+#         if end_index >= max_index:
+#             end_index = max_index
+#
+#         page_range = paginator.page_range[start_index:end_index]
+#         context['page_range'] = page_range
+#         return context
+#
+#     def get_queryset(self):
+#         return Board.objects.order_by("-created_date")
+class IndexView(generic.ListView):
+    model = Board
+    paginate_by = 10
+    template_name = 'community/board_list.html'  # DEFAULT : <app_label>/<model_name>_list.html
+    context_object_name = 'board_list'
 
-    page = request.GET.get('page', '1')
-    # 조회
-    board_list = Board.objects.order_by('-created_date')
-    page
-    # 페이징처리
-    paginator = Paginator(board_list, 10)  # 페이지당 10개씩 보여주기
-    page_obj = paginator.get_page(page)
-    context = {'board_list': page_obj}
-    return render(request, 'community/board_list.html', context)
+    def get_queryset(self):
+        search_keyword = self.request.GET.get('q', '')
+        search_type = self.request.GET.get('type', '')
+        board_list = Board.objects.order_by('-created_date')
+
+        if search_keyword:
+            if len(search_keyword) > 1:
+                if search_type == 'all':
+                    search_board_list = board_list.filter(
+                        Q(title__icontains=search_keyword) | Q(content__icontains=search_keyword) | Q(
+                            writer__user_id__icontains=search_keyword))
+                elif search_type == 'content_type':
+                    search_board_list = board_list.filter(content_type__icontains=search_keyword)
+                elif search_type == 'title':
+                    search_board_list = board_list.filter(title__icontains=search_keyword)
+                elif search_type == 'content':
+                    search_board_list = board_list.filter(content__icontains=search_keyword)
+                elif search_type == 'writer':
+                    search_board_list = board_list.filter(writer__user_id__icontains=search_keyword)
+
+                # if not search_notice_list :
+                #     messages.error(self.request, '일치하는 검색 결과가 없습니다.')
+                return search_board_list
+            else:
+                messages.error(self.request, '검색어는 2글자 이상 입력해주세요.')
+        return board_list
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        paginator = context['paginator']
+        page_numbers_range = 10
+        max_index = len(paginator.page_range)
+
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+
+        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+
+        page_range = paginator.page_range[start_index:end_index]
+        context['page_range'] = page_range
+
+        search_keyword = self.request.GET.get('q', '')
+        search_type = self.request.GET.get('type', '')
+       # board_fixed = Board.objects.filter(top_fixed=True).order_by('-created_date')
+
+        if len(search_keyword) > 1:
+            context['q'] = search_keyword
+        context['type'] = search_type
+        #context['board_fixed'] = board_fixed
+        return context
+
 
 
 # 글 작성
@@ -93,7 +177,3 @@ def board_modify(request, post_id):
 
 
 # 글 검색기능
-
-#파일 업로드
-
-#조회수

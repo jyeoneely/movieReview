@@ -21,9 +21,9 @@
     </div>
     <div class="card">
     <div>
-        <table border="1" cellspacing="5">
-            <tr align="center" bgcolor="#D3D3D3" >
-                <td>이전글 : </td>
+        <table>
+            <tr align="center">
+                <td>-이전글 : </td>
                 <td>
                     {% if board_before %}
                     <a href="/community/detail/{{board_before.id}}">{{board_before.title}}</a>
@@ -32,8 +32,8 @@
                     {% endif %}
                 </td>
             </tr>
-            <tr align="center" bgcolor="D3D3D3" >
-                <td>다음글 : </td>
+            <tr align="center">
+                <td>-다음글 : </td>
                 <td>
                     {% if board_after %}
                     <a href="/community/detail/{{board_after.id}}">{{board_after.title}}</a>
