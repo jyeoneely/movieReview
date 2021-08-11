@@ -41,7 +41,7 @@ class IndexView(generic.ListView):
         return context
 
     def get_queryset(self):
-        return Movie.objects.order_by("-pub_date", 'title')
+        return Movie.objects.order_by("-pub_date", "-create_date", "title")
 
 
 def create(request):

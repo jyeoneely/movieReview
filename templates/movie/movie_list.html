@@ -18,8 +18,8 @@
 
 
 
-    {% if request.account.is_authenticated %}
-    <p>{{ request.account.username }}</p>
+    {% if request.user.is_authenticated %}
+    <p>{{ request.user.nickname }}</p>
     {% else %}
     <p>user not logged</p>
     {% endif %}
@@ -27,10 +27,13 @@
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
 
+        {% if page_obj.paginator.num_pages > 10 %}
+
         <!-- 첫페이지 -->
         <li class="page-item">
             <a class="page-link" href="?page=1"> 처음으로 </a>
         </li>
+        {% endif %}
         {% if page_obj.has_previous %}
         <!-- 이전페이지 -->
         <li class="page-item">
@@ -62,10 +65,12 @@
             <a class="page-link" tabindex="-1" aria-disabled="true" href="#"> 다음 </a>
         </li>
         {% endif %}
+        {% if page_obj.paginator.num_pages > 10 %}
         <!-- 마지막 페이지 -->
         <li class="page-item">
             <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"> 마지막으로 </a>
         </li>
+        {% endif %}
     </ul>
     <!-- 페이징처리 끝 -->
 

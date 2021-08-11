@@ -7,7 +7,7 @@ from .models import User, UserManager
 class UserCreationForm(forms.ModelForm):
     # 사용자 생성 폼
     email = forms.EmailField(
-        label='Email',
+        label='이메일',
         required=True,
         widget=forms.EmailInput(
             attrs={
@@ -17,7 +17,7 @@ class UserCreationForm(forms.ModelForm):
         )
     )
     nickname = forms.CharField(
-        label='Nickname',
+        label='닉네임',
         required=True,
         widget=forms.TextInput(
             attrs={
@@ -27,7 +27,7 @@ class UserCreationForm(forms.ModelForm):
         )
     )
     password1 = forms.CharField(
-        label='Password',
+        label='비밀번호',
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
@@ -36,7 +36,7 @@ class UserCreationForm(forms.ModelForm):
         )
     )
     password2 = forms.CharField(
-        label='Password confirmation',
+        label='비밀번호 확인',
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
@@ -54,7 +54,7 @@ class UserCreationForm(forms.ModelForm):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
+            raise forms.ValidationError("비밀번호가 일치하지 않습니다.")
         return password2
 
     def save(self, commit=True):
@@ -65,6 +65,7 @@ class UserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
 
 
 class UserChangeForm(forms.ModelForm):

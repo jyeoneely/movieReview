@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+from account.models import User
 
 
 # Create your models here.
@@ -9,8 +11,9 @@ class Movie(models.Model):
     poster = models.ImageField(upload_to='media/', blank=True, null=True)  # 포스터
     pub_date = models.DateField()  # 개봉일
     director = models.CharField(max_length=100)  # 감독
+    create_date = models.DateTimeField(default=timezone.now)
+    like_user = models.ManyToManyField(User, related_name='like_movie')
 
-    # models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)                    #감독
     def __str__(self):
         return self.title
 # --------------------------------------------------------------------------------------------------------
