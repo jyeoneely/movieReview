@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load board_filter %}
+
+
+
 {% block main %}
 <!--<header>-->
 <!--    <div class="navbar navbar-dark bg-dark shadow-sm mb-3">-->
@@ -14,11 +17,12 @@
 <!--{% if q %}-->
 <!--<h5>'{{ q }}' 검색 결과입니다.</h5>-->
 <!--{% endif %}-->
-<div class="container">
+<div class="row container my-3">
+    <img class="img-corny" src="{% static 'assets/img/community_corn.png' %}" alt="..." />
     <table class="table">
         <thead class="thead-light">
         <tr class="text-center">
-            <th scope="col">NO.</th>
+            <th scope="col">번호</th>
             <th scope="col">머리글</th>
             <th scope="col">제목</th>
             <th scope="col">작성자</th>

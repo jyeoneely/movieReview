@@ -4,9 +4,9 @@
 
 
 {% block main %}
-<div class="container">
-    <h5 class="my-3 border-bottom pb-2">영화등록, 수정</h5>
-    <form method="post" class="post-form my-3" enctype="multipart/form-data">
+<div class="row container my-3">
+    <img class="img-corny" src="{% static 'assets/img/movie_corn.png' %}" alt="..." />
+    <form method="post" class="post-form my-3" enctype="multipart/form-data" style="padding-top: 0px; padding-bottom: 0px;">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">저장하기</button>

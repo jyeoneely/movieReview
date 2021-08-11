@@ -4,9 +4,8 @@
 
 
 {% block main %}
-<link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
-<div class="container my-3">
-    <h2 class="border-bottom" py-2 >게시글</h2>
+<div class="row container my-3">
+    <img class="img-corny" src="{% static 'assets/img/community_corn.png' %}" alt="..." />
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
