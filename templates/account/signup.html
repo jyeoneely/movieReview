@@ -5,10 +5,13 @@
 
 
 {% block main %}
-<form method="post" action="{% url 'account:signup' %}">
-    {% csrf_token %}
-    <input type="hidden" name="next" value="" />
-    {{ form.as_p }}
-    <button type="submit">로그인</button>
-</form>
+<section class="Signup_page-form">
+    <h4>회원가입</h4>
+    <form method="post" action="{% url 'account:signup' %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="" />
+        {{ form.as_p }}
+        <button type="submit">로그인</button>
+    </form>
+</section>
 {% endblock %}

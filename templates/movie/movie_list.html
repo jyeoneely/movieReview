@@ -4,12 +4,7 @@
 
 
 {% block main %}
-    <ul style="
-        padding-top: 160px;
-        padding-bottom: 160px;
-        padding-left: 48px;
-        padding-right: 48px;
-    ">
+    <ul>
         {% if page_obj %} {% for movie in page_obj %}
         <li>
             <span class="title"><a href="{% url 'movie:detail' movie.id %}">{{ movie.title }}</a></span>
