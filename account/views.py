@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -6,6 +7,7 @@ from django.contrib import auth
 from django.contrib.auth import authenticate, login
 from review.models import Review
 
+
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
@@ -13,6 +15,7 @@ def index(request):
         return render(request, 'account/index.html')
     else:
         return redirect('account:login')
+
 
 def signup(request):
     """
@@ -33,24 +36,31 @@ def signup(request):
     return render(request, 'account/signup.html', context)
 
 
+@login_required(login_url='account:login')
 def review(request):
+    page = request.GET.get('page', '1')
+    if page == '':
+        page = '1'
+    page = int(page)
+    review_list = Review.objects.filter(author=request.user.id).order_by('-create_date')
+    num = 10
+    paginator = Paginator(review_list, num)
+    review_list = paginator.page(page)
+    start_index = 1
+    for i in reversed(range(1, page + 1)):
+        if i % num == 1:
+            start_index = i
+            break
+    end_index = start_index + num
+    page_range = range(start_index, end_index)
+    return render(request, 'account/review.html', {'review_list': review_list, 'page_range': page_range})
 
-    if request.user.is_authenticated:
-        page = request.GET.get('page', '1')
-        review_list = Review.objects.filter(author=request.user.id).order_by('-create_date')
-        paginator = Paginator(review_list, 10)  # 페이지당 10개씩 보여주기
-        page_obj = paginator.get_page(page)
-        context = {'review_list': page_obj}
-        return render(request, 'account/review.html', context)
-    else:
-        return redirect('account:login')
+
+@login_required(login_url='account:login')
+def pick(request):
+    return render(request, 'account/pick.html')
 
 
-
-
-
-def like_movie(request):
-    if request.user.is_authenticated:
-        return render(request, 'account/like_movie.html')
-    else:
-        return redirect('account:login')
+@login_required(login_url='account:login')
+def change_nickname(request, user_id, nickname):
+    pass

@@ -7,6 +7,13 @@
     <ul>
         {% if page_obj %} {% for movie in page_obj %}
         <li>
+            <span class="poster">
+                {% if movie.poster %}
+                <img src="{{ movie.poster.url }}" width="150" height="200">
+                {% else %}
+                <img src="{% static 'images/noimg.jpg' %}" height="200">
+                {% endif %}
+            </span>
             <span class="title"><a href="{% url 'movie:detail' movie.id %}">{{ movie.title }}</a></span>
             <span class="director">{{ movie.director }}</span>
             <span class="pub-date">{{ movie.pub_date }}</span>

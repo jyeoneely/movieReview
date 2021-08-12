@@ -12,10 +12,15 @@ class Movie(models.Model):
     pub_date = models.DateField()  # 개봉일
     director = models.CharField(max_length=100)  # 감독
     create_date = models.DateTimeField(default=timezone.now)
-    like_user = models.ManyToManyField(User, related_name='like_movie')
 
     def __str__(self):
         return self.title
-# --------------------------------------------------------------------------------------------------------
-#    audience = models.IntegerField()                               #관중
-#    genres = models.ManyToManyField(Genre, related_name='movie')   #장르
+
+
+class Pick(models.Model):
+    movie = models.ForeignKey('Movie', on_delete=models.CASCADE)
+    user = models.ForeignKey('account.User', on_delete=models.CASCADE)
+    pick_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.user.nickname + " likes " + self.movie.title
