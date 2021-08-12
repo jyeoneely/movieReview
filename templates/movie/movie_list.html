@@ -24,9 +24,10 @@
         <li>목록이 존재하지 않습니다. {{account.User}}</li>
         {% endif %}
     </ul>
-    <a href="{% url 'movie:create' %}" class="btn btn-primary" role="button" style="15px 28px">영화등록</a>
 
-
+    <div>
+        <a href="{% url 'movie:create' %}" class="btn btn-primary" role="button" style="...">영화등록</a>
+    </div>
 <!--    {% if request.user.is_authenticated %}-->
 <!--    <p>{{ request.user.nickname }}</p>-->
 <!--    {% else %}-->
@@ -40,7 +41,7 @@
 
         <!-- 첫페이지 -->
         <li class="page-item">
-            <a class="page-link" href="?page=1"> 처음으로 </a>
+            <a class="page-link" href="?page=1"> << </a>
         </li>
         {% endif %}
         {% if page_obj.has_previous %}
@@ -77,11 +78,12 @@
         {% if page_obj.paginator.num_pages > 10 %}
         <!-- 마지막 페이지 -->
         <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"> 마지막으로 </a>
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"> >> </a>
         </li>
         {% endif %}
     </ul>
     <!-- 페이징처리 끝 -->
+
 
 </div>
 

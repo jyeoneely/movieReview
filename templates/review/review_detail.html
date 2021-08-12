@@ -126,30 +126,35 @@
 
         <!-- -------------------- 수정, 삭제 영역 -------------------- -->
         <div style="margin:16px">
-           <span>
+             <span>
                 {% if request.user == review.author %}
-                <a type="button" href="{% url 'review:review_modify' review.id  %}" role="button">수정</a>
+                <a href="{% url 'review:review_modify' review.id  %}" class="btn btn-primary" role="button" style="...">수정</a>
                 {% endif %}
-            </span>
-            <!--endif-->
-            <span>
-                {% if request.user == review.author %}
-                <script type="text/javascript">
-                    function button_event(){
-                    if (confirm("삭제된 리뷰는 복구가 불가능합니다. 리뷰를 삭제하시겠습니까?") == true){
-                        location.replace("{% url 'review:review_delete' review.id  %}");
-                    }
-                    else{
-                        return;
-                    }
-                    }
-                </script>
-                <a onclick="button_event();">삭제</a>
-                {% endif %}
+             </span>
+             <!--endif-->
+             <span>
+                 {% if request.user == review.author %}
+                 <script type="text/javascript">
+                        function button_event(){
+                        if (confirm("삭제된 리뷰는 복구가 불가능합니다. 리뷰를 삭제하시겠습니까?") == true){
+                            location.replace("{% url 'review:review_delete' review.id  %}");
+                        }
+                        else{
+                            return;
+                        }
+                        }
+                 </script>
+                 <a onclick="button_event();" class="btn btn-primary" role="button" style="...">삭제</a>
+                 {% endif %}
             </span>
         </div>
         <!-- ----------------------------------------------------------------------- -->
-        <!-- -------------------------- 이전글, 다음글영역 ----------------------------- -->
+        <!-- -------------------------- 이전글, 다음글/ 목록영역 ----------------------------- -->
+        <div>
+             <span>
+                 <a href="{% url 'review:index' %}" class="btn btn-primary" role="button" style="...">목록</a>
+             </span>
+        </div>
         <table>
             <tr>
                 <td>이전리뷰 :</td>
@@ -172,11 +177,6 @@
                 </td>
             </tr>
         </table>
-        <!-- ----------------------------------------------------------------------- -->
-        <!-- ----------------------------목록영역------------------------------------ -->
-        <div>
-            <span><a href="{% url 'review:index' %}">목록</a></span>
-        </div>
         <!-- ----------------------------------------------------------------------- -->
 
 </div>
