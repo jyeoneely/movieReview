@@ -3,6 +3,7 @@ from community.models import Board
 
 class BoardForm(forms.ModelForm):
     class Meta:
+        
         model = Board
         CHOICES = (
             ('한국영화', '한국영화'),
@@ -28,6 +29,11 @@ class BoardForm(forms.ModelForm):
             'file_image': '파일첨부'
 
         }
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("label_suffix", "")
+        super(BoardForm, self).__init__(*args, **kwargs)
+        
 
 
 

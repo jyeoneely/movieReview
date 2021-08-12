@@ -12,44 +12,7 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 
 
-# Create your views here.
-# 글 목록
-# def index(request):
-#     # boards = {'boards': Board.objects.order_by('-created_date')}
-#     # return render(request, 'community/board_list.html', boards)
-#
-#     page = request.GET.get('page', '1')
-#     # 조회
-#     board_list = Board.objects.order_by('-created_date')
-#
-#     # 페이징처리
-#     paginator = Paginator(board_list, 10)  # 페이지당 10개씩 보여주기
-#     page_obj = paginator.get_page(page)
-#     context = {'board_list': page_obj,}
-#     return render(request, 'community/board_list.html', context)
-# class IndexView(generic.ListView):
-#     paginate_by = 10
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(IndexView, self).get_context_data(**kwargs)
-#         paginator = context['paginator']
-#         page_numbers_range = 10
-#         max_index = len(paginator.page_range)
-#
-#         page = self.request.GET.get('page')
-#         current_page = int(page) if page else 1
-#
-#         start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
-#         end_index = start_index + page_numbers_range
-#         if end_index >= max_index:
-#             end_index = max_index
-#
-#         page_range = paginator.page_range[start_index:end_index]
-#         context['page_range'] = page_range
-#         return context
-#
-#     def get_queryset(self):
-#         return Board.objects.order_by("-created_date")
+
 class IndexView(generic.ListView):
     model = Board
     paginate_by = 10
@@ -180,5 +143,41 @@ def board_modify(request, post_id):
     context = {'form': form}
     return render(request, 'community/board_modify.html', context)
 
-
-# 글 검색기능
+# Create your views here.
+# 글 목록
+# def index(request):
+#     # boards = {'boards': Board.objects.order_by('-created_date')}
+#     # return render(request, 'community/board_list.html', boards)
+#
+#     page = request.GET.get('page', '1')
+#     # 조회
+#     board_list = Board.objects.order_by('-created_date')
+#
+#     # 페이징처리
+#     paginator = Paginator(board_list, 10)  # 페이지당 10개씩 보여주기
+#     page_obj = paginator.get_page(page)
+#     context = {'board_list': page_obj,}
+#     return render(request, 'community/board_list.html', context)
+# class IndexView(generic.ListView):
+#     paginate_by = 10
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(IndexView, self).get_context_data(**kwargs)
+#         paginator = context['paginator']
+#         page_numbers_range = 10
+#         max_index = len(paginator.page_range)
+#
+#         page = self.request.GET.get('page')
+#         current_page = int(page) if page else 1
+#
+#         start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+#         end_index = start_index + page_numbers_range
+#         if end_index >= max_index:
+#             end_index = max_index
+#
+#         page_range = paginator.page_range[start_index:end_index]
+#         context['page_range'] = page_range
+#         return context
+#
+#     def get_queryset(self):
+#         return Board.objects.order_by("-created_date")

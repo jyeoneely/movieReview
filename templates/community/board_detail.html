@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block main %}
+<div style="display:none">
+    {{board.update_counter}}
+</div>
 
 <div class="row container my-3">
     <img class="img-corny" src="{% static 'assets/img/community_corn.png' %}" alt="..." />

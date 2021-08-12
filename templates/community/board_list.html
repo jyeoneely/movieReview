@@ -26,7 +26,7 @@
                 <td class="text-left" style="width:50%"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;&nbsp;{{ board }}</a>
                 </td>
                 <td>{{ board.writer }}</td>
-                <td>{{ board.created_date | date:"Y/m/d"}}</td>
+                <td>{{ board.created_date | date:"y/m/d"}}</td>
                 <td>{{ board.board_hit }}</td>
             </tr>
             {% endfor %}
@@ -52,7 +52,7 @@
                     <span>{{ board.writer }}</span>
                 </td>
                 <td>
-                    <span>{{ board.created_date | date:"Y/m/d" }}</span>
+                    <span>{{ board.created_date | date:"y/m/d" }}</span>
                 </td>
                 <td>
                     <span>{{ board.board_hit}}</span>
@@ -103,7 +103,6 @@
 
         <div class="col">
             <a href="{% url 'community:post' %}" class="btn btn-primary" role="button" style="15px 28px">글쓰기</a>
-            <a href="{% url 'community:index' %}" class="btn btn-primary" role="button" style="15px 28px">목록</a>
         </div>
 
         <!-- -------------------- 페이징처리 시작 -------------------- -->
