@@ -17,20 +17,15 @@
                 <th scope="col">조회수</th>
             </tr>
             {% if q %}
-            {% else %}
-            {% if board_fixed %}
-            {% for board in board_fixed %}
-            <tr class="text-center">
+            <tr class="text-center" style="display:none">
                 <td>{{ board.id }}</td>
                 <td>{{ board.content_type }}</td>
-                <td class="text-left" style="width:50%"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;&nbsp;{{ board }}</a>
+                <td class="text-left">{{ board }}</a>
                 </td>
                 <td>{{ board.writer }}</td>
                 <td>{{ board.created_date | date:"y/m/d"}}</td>
                 <td>{{ board.board_hit }}</td>
             </tr>
-            {% endfor %}
-            {% endif %}
             {% endif %}
         </thead>
         <tbody>
