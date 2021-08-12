@@ -1,16 +1,13 @@
 {% extends 'base.html' %}
-{% load static %}
+
 {% load review_filter %}
-{% block bootstrap %}<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/> {% endblock %}
-
-
 {% block main %}
 <div class="row container my-3">
     <div class="col-md-2 panel panel-info">
         <ul class="list-group">
             <li class="list-group-item"><a class="nav-link" href="{% url 'account:index'%}">내 프로필</a></li>
             <li class="list-group-item"><a class="nav-link" href="{% url 'account:review'%}">내 리뷰</a></li>
-            <li class="list-group-item"><a class="nav-link" href="{% url 'account:like_movie'%}">찜한 영화</a></li>
+            <li class="list-group-item"><a class="nav-link" href="{% url 'account:pick'%}">찜한 영화</a></li>
             <li class="list-group-item"><a class="nav-link" href="{% url 'account:logout' %}">로그아웃</a></li>
         </ul>
     </div>
@@ -39,7 +36,7 @@
                         {{ review_list.paginator.count|sub:review_list.start_index|sub:forloop.counter0|add:1 }}
                     </td>
                     <td>
-                        <a href="{% url 'review:review_detail' review.id %}">{{ review }}</a>
+                        <a href="{% url 'review:review_detail' review.id %}">{{ review.movie.title }}</a>
                     </td>
                     <td>
                         {% if review.star == 0 %}
@@ -64,8 +61,8 @@
                             <p>{{ review.modify_date }}</p>
                         {% endif %}
                     </td>
-                    <td>{{ review.like_review }}</td>
-                    <td>{{ review.unlike_review }}</td>
+                    <td>{{ review.like_review.count }}</td>
+                    <td>{{ review.unlike_review.count }}</td>
                     <td>{{ review.review_hit }}</td>
                 </tr>
                 {% endfor %}
@@ -99,19 +96,17 @@
                     <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
                 </li>
                 {% endif %}
-                    {% for page_number in review_list.paginator.page_range %}
-                    {# if page_number >= review_list.number|add:-5 and page_number <= review_list.number|add:5 #}
-                        {% if page_number == review_list.number %}
-                        <li class="page-item active" aria-current="page">
-                            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-                        </li>
-                        {% else %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-                        </li>
-                    {% endif %}
-                {# endif #}
+
+
+
+                {% for page in page_range %}
+                    <li class="page-item {% if page == review_list.number %}active{% endif %}" aria-current="page">
+                        <a class="page-link" href="?page={{ page_number }}">{{ page }}</a>
+                    </li>
                 {% endfor %}
+
+
+
                 {% if review_list.has_next %}
                 <li class="page-item">
                     <a class="page-link" href="?page={{ review_list.next_page_number }}">이후</a>

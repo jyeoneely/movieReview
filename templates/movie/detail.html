@@ -22,32 +22,30 @@
         <td>{{movie.description}}</td>
     </tr>
     <tr>
-        <td>포스터 url</td>
-        <td>{{movie.poster}}</td>
-    </tr>
-    {% if movie.poster %}
-    <tr>
         <td>포스터</td>
-        <td><img src="{{ movie.poster.url }}" height="400"></td>
+        <td>
+        {% if movie.poster %}
+            <img src="{{ movie.poster.url }}" height="400">
+        {% else %}
+            <img src="{% static 'images/noimg.jpg' %}" height="400">
+        {% endif %}
+        </td>
     </tr>
-    {% endif %}
 </table>
+
+
+<a href="{% url 'movie:pick' movie.id %}">
+    {% if pick is False %}
+    찜하기
+    {% else %}
+    찜 취소하기
+    {% endif %}
+</a>
+
 
 <a href="{% url 'movie:modify' movie.id %}">수정</a>
 <a href="{% url 'movie:delete' movie.id %}">삭제</a>
 
 
-<script>
-<!--    window.addEventListener("load", function(){-->
-<!--        const del = document.querySelector(".delete");-->
-
-<!--        del.onclick = function(){-->
-<!--            if(confirm("삭제하시겠습니까?")) {-->
-<!--                location.href = del.data-uri;-->
-<!--            }-->
-<!--        }-->
-<!--    })-->
-
-</script>
 
 {% endblock %}
