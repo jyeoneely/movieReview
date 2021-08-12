@@ -1,18 +1,19 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% load review_filter %}
+
+
 {% block main %}
 <div class="row container my-3">
-    <div class="col-md-2 panel panel-info">
+    <img class="img-corny" src="{% static 'assets/img/profile_corn.png' %}" alt="..." />
+     <div class="col-md-2 panel panel-info">
         <ul class="list-group">
-            <li class="list-group-item"><a class="nav-link" href="{% url 'account:index'%}">내 프로필</a></li>
-            <li class="list-group-item"><a class="nav-link" href="{% url 'account:review'%}">내 리뷰</a></li>
-            <li class="list-group-item"><a class="nav-link" href="{% url 'account:pick'%}">찜한 영화</a></li>
-            <li class="list-group-item"><a class="nav-link" href="{% url 'account:logout' %}">로그아웃</a></li>
+            <li class="list-group-item"><a class="panel-info" href="{% url 'account:index'%}">내 프로필</a></li>
+            <li class="list-group-item"><a class="panel-info" href="{% url 'account:review'%}">내 리뷰</a></li>
+            <li class="list-group-item"><a class="panel-info" href="{% url 'account:pick'%}">찜한 영화</a></li>
+            <li class="list-group-item"><a class="panel-info" href="{% url 'account:logout' %}">로그아웃</a></li>
         </ul>
     </div>
-
-
 
     <div class="col-md-10">
             <table class="table">
@@ -80,11 +81,11 @@
             <ul class="pagination justify-content-center">
                 {% if review_list.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page=1">처음으로</a>
+                    <a class="page-link" href="?page=1"><<</a>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
-                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">처음으로</a>
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#"><<</a>
                 </li>
                 {% endif %}
                 {% if review_list.has_previous %}
@@ -96,33 +97,27 @@
                     <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
                 </li>
                 {% endif %}
-
-
-
                 {% for page in page_range %}
                     <li class="page-item {% if page == review_list.number %}active{% endif %}" aria-current="page">
                         <a class="page-link" href="?page={{ page_number }}">{{ page }}</a>
                     </li>
                 {% endfor %}
-
-
-
                 {% if review_list.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ review_list.next_page_number }}">이후</a>
+                    <a class="page-link" href="?page={{ review_list.next_page_number }}">다음</a>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
-                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이후</a>
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
                 </li>
                 {% endif %}
                 {% if review_list.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ review_list.paginator.num_pages }}">마지막으로</a>
+                    <a class="page-link" href="?page={{ review_list.paginator.num_pages }}">>></a>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
-                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">마지막으로</a>
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">>></a>
                 </li>
                 {% endif %}
             </ul>

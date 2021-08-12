@@ -4,14 +4,17 @@
 
 
 {% block main %}
-<div class="row m-0 justify-content-center mt-5 pt-5">
-  <div class="col-5 button-1" OnClick="location.href ='{% url 'master:movies' %}'">
-    <div class="eff-1"></div>
-    <a href="{% url 'master:movies' %}"> 게시물 관리 </a>
-  </div>
-  <div class="col-5 button-4" OnClick="location.href ='{% url 'master:users' %}'">
-    <div class="eff-4"></div>
-    <a href="{% url 'master:users' %}"> 회원 관리 </a>
+<div class="row container my-3">
+  <div class="d-flex justify-content-center mt-2">
+    <div class="alert alert-warning" role="alert">
+      <img class="img-corn" src="{% static 'assets/img/manage_corn.png' %}" alt="..." />
+      <h1 class="font-weight-bold">관리자만 접근하실 수 있습니다.</h1><br>
+      <h5 class="font-weight-bold">사이트 이용에 불편한 점이나 궁금한 점이 있으시면 하단의 실시간 문의를 이용해주세요.</h5>
+      <span>
+        <button class="btn btn-primary" onclick="history.back(-1);">뒤로가기</button>
+        <button class="btn btn-primary" href="{% url 'community:post' %}">홈으로</button>
+      </span>
+    </div>
   </div>
 </div>
 {% endblock %}

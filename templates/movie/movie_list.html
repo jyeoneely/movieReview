@@ -4,6 +4,8 @@
 
 
 {% block main %}
+<div class="row container my-3">
+    <img class="img-corny" src="{% static 'assets/img/movie_corn.png' %}" alt="..." />
     <ul>
         {% if page_obj %} {% for movie in page_obj %}
         <li>
@@ -22,14 +24,14 @@
         <li>목록이 존재하지 않습니다. {{account.User}}</li>
         {% endif %}
     </ul>
+    <a href="{% url 'movie:create' %}" class="btn btn-primary" role="button" style="15px 28px">영화등록</a>
 
 
-
-    {% if request.user.is_authenticated %}
-    <p>{{ request.user.nickname }}</p>
-    {% else %}
-    <p>user not logged</p>
-    {% endif %}
+<!--    {% if request.user.is_authenticated %}-->
+<!--    <p>{{ request.user.nickname }}</p>-->
+<!--    {% else %}-->
+<!--    <p>user not logged</p>-->
+<!--    {% endif %}-->
 
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
@@ -81,7 +83,6 @@
     </ul>
     <!-- 페이징처리 끝 -->
 
-    <a href="{% url 'movie:create' %}" class="btn btn-primary">영화등록하기</a>
-
+</div>
 
 {% endblock %}

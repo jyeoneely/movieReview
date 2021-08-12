@@ -4,8 +4,8 @@
 
 
 {% block main %}
-<div class="container my-3">
-    <h2 class="border-bottom" py-2 >게시글 수정</h2>
+<div class="row container my-3">
+    <img class="img-corny" src="{% static 'assets/img/community_corn.png' %}" alt="..." />
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

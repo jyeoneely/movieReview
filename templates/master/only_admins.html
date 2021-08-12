@@ -4,10 +4,13 @@
 
 
 {% block main %}
-<button class="square_btn" onclick="history.back(-1);">뒤로가기</button>
-<div class="d-flex justify-content-center mt-2">
-  <div class="alert alert-warning" role="alert">
-    <h5 class="font-weight-bold">관리자만 접근하실 수 있습니다.</h5>
+<div class="row container my-3">
+  <button class="square_btn" onclick="history.back(-1);">뒤로가기</button>
+  <div class="d-flex justify-content-center mt-2">
+    <div class="alert alert-warning" role="alert">
+      <img class="img-corn" src="{% static 'assets/img/manage_corn.png' %}" alt="..." />
+      <h1 class="font-weight-bold">관리자만 접근하실 수 있습니다.</h1>
+    </div>
   </div>
 </div>
 {% endblock %}
