@@ -17,7 +17,7 @@ class Board(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     file_image = models.ImageField(upload_to='media/', blank=True, null=True)
     board_hit = models.PositiveIntegerField(default=0)
-    top_fixed = models.BooleanField(verbose_name='상단고정', default=False)
+    #top_fixed = models.BooleanField(verbose_name='상단고정', default=False)
 
     def __str__(self):
         return self.title

@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block main %}
-{{board.update_counter}}
+
 <div class="row container my-3">
     <img class="img-corny" src="{% static 'assets/img/community_corn.png' %}" alt="..." />
     <div class="card">
@@ -15,7 +14,7 @@
             <p class="card-text"><small class="text-muted">조회수 : {{ board.board_hit }}</small></p>
             {% if board.file_image %}
             첨부파일
-            <a href = "{{board.file_image.url}}" download>
+            <a href = "{{ board.file_image.url }}" download>
             <img src= "{{ board.file_image.url }}" height="100"></a>
             {% endif %}
         </div>
@@ -24,10 +23,12 @@
     <div class="row mt-3 col">
         <span class="col">
             <a class="btn btn-primary" href="/community" role="button">목록</a>
+            {% if request.user == board.writer %}
             <a class="btn btn-info" href="/community/modify/{{ board.id }}" role="button">수정</a>
             <button class="btn btn-primary" id="open">삭제</button>
+            {% endif %}
         </span>
-
+        {% if request.user == board.writer %}
         <div class="modal hidden">
             <div class="modal__overlay"></div>
             <div class="modal__content">
@@ -36,7 +37,9 @@
                 <button id="close">취소</button>
             </div>
         </div>
+        {% endif %}
     </div>
+
 
     <div class="card">
         <table>

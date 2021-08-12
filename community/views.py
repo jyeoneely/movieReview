@@ -9,6 +9,7 @@ from community.forms import BoardForm
 from community.models import *
 from django.db.models import Q, Count
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -52,7 +53,7 @@ from django.views import generic
 class IndexView(generic.ListView):
     model = Board
     paginate_by = 10
-    template_name = 'community/board_list.html'  # DEFAULT : <app_label>/<model_name>_list.html
+    template_name = 'community/board_list.html'
     context_object_name = 'board_list'
 
     def get_queryset(self):
@@ -65,7 +66,7 @@ class IndexView(generic.ListView):
                 if search_type == 'all':
                     search_board_list = board_list.filter(
                         Q(title__icontains=search_keyword) | Q(content__icontains=search_keyword) | Q(
-                            writer__user_id__icontains=search_keyword))
+                            writer__nickname__icontains=search_keyword))
                 elif search_type == 'content_type':
                     search_board_list = board_list.filter(content_type__icontains=search_keyword)
                 elif search_type == 'title':
@@ -73,10 +74,10 @@ class IndexView(generic.ListView):
                 elif search_type == 'content':
                     search_board_list = board_list.filter(content__icontains=search_keyword)
                 elif search_type == 'writer':
-                    search_board_list = board_list.filter(writer__user_id__icontains=search_keyword)
+                    search_board_list = board_list.filter(writer__nickname__icontains=search_keyword)
 
-                # if not search_notice_list :
-                #     messages.error(self.request, '일치하는 검색 결과가 없습니다.')
+                if not search_board_list :
+                     messages.error(self.request, '일치하는 검색 결과가 없습니다.')
                 return search_board_list
             else:
                 messages.error(self.request, '검색어는 2글자 이상 입력해주세요.')
@@ -101,7 +102,7 @@ class IndexView(generic.ListView):
 
         search_keyword = self.request.GET.get('q', '')
         search_type = self.request.GET.get('type', '')
-       # board_fixed = Board.objects.filter(top_fixed=True).order_by('-created_date')
+        #board_fixed = Board.objects.filter(top_fixed=True).order_by('-created_date')
 
         if len(search_keyword) > 1:
             context['q'] = search_keyword
@@ -112,12 +113,13 @@ class IndexView(generic.ListView):
 
 
 # 글 작성
+@login_required(login_url='account:login')
 def board_post(request):
     if request.method == 'POST':
         form = BoardForm(request.POST, request.FILES)
         if form.is_valid():
             board = form.save(commit=False)
-            board.writer_id = 1
+            board.writer_id = request.user.id
             board.created_date = timezone.now()
             board.save()
             return redirect('community:index')
@@ -153,6 +155,7 @@ def board_detail(request, post_id):
 
 
 # 글 삭제
+@login_required(login_url='account:login')
 def board_delete(request, post_id):
     board = Board.objects.get(id=post_id)
     board.delete()
@@ -161,8 +164,10 @@ def board_delete(request, post_id):
 
 
 # 글 수정
+@login_required(login_url='account:login')
 def board_modify(request, post_id):
     board = get_object_or_404(Board, id=post_id)
+
     if request.method == "POST":
         form = BoardForm(request.POST,  request.FILES, instance=board)
         if form.is_valid():
