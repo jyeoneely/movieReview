@@ -23,27 +23,18 @@
       <tr class="row m-0">
         <td class="col-6 col-md-8 text-truncate" OnClick="location.href ='{% url 'movie:detail' movie.id %}'">{{ movie.title }}</td>
         <td class="col-3 col-md-2 text-center"><a href="{% url 'movie:modify' movie.id %}" class="square_btn">수정</a></td>
-        <td class="col-3 col-md-2 text-center"><a href="#" class="square_btn" data-toggle="modal" data-target="#{{ movie.id }}">삭제</a></td>
+        <td class="col-3 col-md-2 text-center"><a href="#" class="square_btn" onclick="button_event();" >삭제</a></td>
 
-        <div class="modal fade" id="{{ movie.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">안내</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                정말 삭제하시겠습니까?
-              </div>
-              <div class="modal-footer">
-                <a href="{% url 'movie:delete' movie.id %}" class="btn btn-danger">삭제</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <script type="text/javascript">
+            function button_event(){
+            if (confirm("삭제된 게시물은 복구가 불가능합니다. 게시물을 삭제하시겠습니까?") == true){
+                location.replace("{% url 'movie:delete' movie.id  %}");
+            }
+            else{
+                return;
+            }
+            }
+        </script>
       </tr>
       {% endfor %}
     </tbody>
