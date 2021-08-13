@@ -20,3 +20,8 @@ class MovieForm(forms.ModelForm):
             'description': '영화소개',
             'poster': '포스터',
         }
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("label_suffix", "")
+        super(MovieForm, self).__init__(*args, **kwargs)
+

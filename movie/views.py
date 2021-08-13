@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from .models import Movie, Pick
 from account.models import User
+from review.models import Review
 from .forms import MovieForm
 from django.views import generic
 from django.core.exceptions import ObjectDoesNotExist
@@ -71,8 +72,9 @@ def detail(request, movie_id):
     except Pick.DoesNotExist:
         pick_exist = False
 
-    context = {'movie': movie, 'pick': pick_exist}
-    print(pick_exist)
+    review = Review.objects.filter(movie=movie).order_by('-create_date')[:5]
+
+    context = {'movie': movie, 'pick': pick_exist, 'review': review}
     return render(request, 'movie/detail.html', context)
 
 

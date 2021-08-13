@@ -49,6 +49,10 @@ class UserCreationForm(forms.ModelForm):
         model = User
         fields = ('email', 'nickname')
 
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("label_suffix", "")
+        super(UserCreationForm, self).__init__(*args, **kwargs)
+
     def clean_password2(self):
         # 두 비밀번호 입력 일치 확인
         password1 = self.cleaned_data.get("password1")

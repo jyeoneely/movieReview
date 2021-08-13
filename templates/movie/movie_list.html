@@ -1,85 +1,104 @@
 {% extends 'base.html' %}
 {% load static %}
-
-
-
+{% load review_filter %}
 {% block main %}
 <div class="row container my-3">
     <img class="img-corny" src="{% static 'assets/img/movie_corn.png' %}" alt="..." />
-    <ul>
-        {% if page_obj %} {% for movie in page_obj %}
-        <li>
-            <span class="poster">
-                {% if movie.poster %}
-                <img src="{{ movie.poster.url }}" width="150" height="200">
-                {% else %}
-                <img src="{% static 'images/noimg.jpg' %}" height="200">
-                {% endif %}
-            </span>
-            <span class="title"><a href="{% url 'movie:detail' movie.id %}">{{ movie.title }}</a></span>
-            <span class="director">{{ movie.director }}</span>
-            <span class="pub-date">{{ movie.pub_date }}</span>
-        </li>
-        {% endfor %} {% else %}
-        <li>목록이 존재하지 않습니다. {{account.User}}</li>
-        {% endif %}
-    </ul>
-    <a href="{% url 'movie:create' %}" class="btn btn-primary" role="button" style="15px 28px">영화등록</a>
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>포스터</th>
+                <th>제목</th>
+                <th>감독</th>
+                <th>개봉일</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if page_obj %}
+            {% for movie in page_obj %}
+            <tr>
+                <td>
+                    {{ page_obj.paginator.count|sub:page_obj.start_index|sub:forloop.counter0|add:1 }}
+                </td>
+                <td>
+                    {% if movie.poster %}
+                    <img src="{{ movie.poster.url }}" width="150" height="200">
+                    {% else %}
+                    <img src="{% static 'images/noimg.jpg' %}" height="200">
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'movie:detail' movie.id %}">{{ movie.title }}</a>
+                </td>
+                <td>
+                    {{ movie.director }}
+                </td>
+                <td>
+                    {{ movie.pub_date }}
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                영화가 없습니다.
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
 
-
-<!--    {% if request.user.is_authenticated %}-->
-<!--    <p>{{ request.user.nickname }}</p>-->
-<!--    {% else %}-->
-<!--    <p>user not logged</p>-->
-<!--    {% endif %}-->
+    {% if user.is_superuser %}
+    <a href="{% url 'movie:create' %}" class="btn btn-primary" role="button" style="padding: 15px 28px">영화등록</a>
+    {% endif %}
 
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
 
-        {% if page_obj.paginator.num_pages > 10 %}
-
-        <!-- 첫페이지 -->
-        <li class="page-item">
-            <a class="page-link" href="?page=1"> 처음으로 </a>
-        </li>
-        {% endif %}
         {% if page_obj.has_previous %}
-        <!-- 이전페이지 -->
         <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}"> 이전 </a>
+            <a class="page-link" href="?page=1"><<</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">이전</a>
         </li>
         {% else %}
         <li class="page-item disabled">
-            <a class="page-link" tabindex="-1" aria-disabled="true" href="#"> 이전 </a>
+            <a class="page-link" href="?page=1"><<</a>
+        </li>
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" onclick="return false">이전</a>
         </li>
         {% endif %}
+
         <!-- 페이지리스트 -->
         {% for page_number in page_range %}
-                {% if page_number == page_obj.number %} <li class="page-item active" aria-current="page">
-                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-                </li>
-                {% else %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-                </li>
-                {% endif %}
+        {% if page_number == page_obj.number %}
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% endif %}
         {% endfor %}
+
         {% if page_obj.has_next %}
-        <!-- 다음페이지 -->
         <li class="page-item">
             <a class="page-link" href="?page={{ page_obj.next_page_number }}"> 다음 </a>
         </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">>></a>
+        </li>
         {% else %}
         <li class="page-item disabled">
-            <a class="page-link" tabindex="-1" aria-disabled="true" href="#"> 다음 </a>
+            <a class="page-link" tabindex="-1" aria-disabled="true" onclick="return false">다음</a>
+        </li>
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" onclick="return false">>></a>
         </li>
         {% endif %}
-        {% if page_obj.paginator.num_pages > 10 %}
-        <!-- 마지막 페이지 -->
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"> 마지막으로 </a>
-        </li>
-        {% endif %}
+
     </ul>
     <!-- 페이징처리 끝 -->
 
