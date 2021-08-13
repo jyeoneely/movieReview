@@ -37,6 +37,33 @@ def index(request):
 class IndexView(generic.ListView):
     paginate_by = 10
 
+    def get_queryset(self):
+        search_keyword = self.request.GET.get('q', '')
+        search_type = self.request.GET.get('type', '')
+        page_obj = Review.objects.order_by("-create_date")
+
+        if search_keyword:
+            if len(search_keyword) > 1:
+                if search_type == 'all':
+                    search_page_obj = page_obj.filter(
+                        Q(title__icontains=search_keyword) |
+                        Q(movie__title__icontains=search_keyword) |
+                        Q(content__icontains=search_keyword) |
+                        Q(author__nickname__icontains=search_keyword))
+                elif search_type == 'title_content':
+                    search_page_obj = page_obj.filter(
+                        Q(title__icontains=search_keyword) | Q(content__icontains=search_keyword))
+                elif search_type == 'movie':
+                    search_page_obj = page_obj.filter(movie__title__icontains=search_keyword)
+                elif search_type == 'author':
+                    search_page_obj = page_obj.filter(author__nickname__icontains=search_keyword)
+
+                return search_page_obj
+            else:
+                messages.error(self.request, '검색어는 2글자 이상 입력해주세요.')
+
+        return page_obj
+
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         paginator = context['paginator']
@@ -53,10 +80,15 @@ class IndexView(generic.ListView):
 
         page_range = paginator.page_range[start_index:end_index]
         context['page_range'] = page_range
-        return context
 
-    def get_queryset(self):
-        return Review.objects.order_by("-create_date")  # page_obj
+        search_keyword = self.request.GET.get('q', '')
+        search_type = self.request.GET.get('type', '')
+
+        if len(search_keyword) > 1:
+            context['q'] = search_keyword
+        context['type'] = search_type
+
+        return context
 
 
 # 리뷰등록 구현

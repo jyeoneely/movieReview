@@ -4,7 +4,13 @@
 {% block main %}
 <div class="row container my-3">
     <img class="img-corny" src="{% static 'assets/img/review_corn.png' %}" alt="..." />
+
     <table class="table">
+    <!---------------------- 검색결과 설명창 ---------------------->
+        {% if q %}
+            <h5>'{{ q }}' 검색 결과입니다.</h5>
+        {% endif %}
+    <!------------------------------------------------------------>
         <thead>
             <tr>
                 <th>번호</th>
@@ -20,44 +26,50 @@
         </thead>
         <tbody>
             {% if page_obj %}
-            {% for review in page_obj %}
-            <tr>
-                <td>
-                    <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
-                    {{ page_obj.paginator.count|sub:page_obj.start_index|sub:forloop.counter0|add:1 }}
-                </td>
-                <td>
-                    {{ review.movie.title }}
-                </td>
-                <td>
-                    <a href="{% url 'review:review_detail' review.id %}">{{ review }}</a>
-                </td>
-                <td>
-                    {% if review.star == 0 %}
-                    <p>☆☆☆☆☆</p>
-                    {% elif review.star == 1 %}
-                    <p>★☆☆☆☆</p>
-                    {% elif review.star == 2 %}
-                    <p>★★☆☆☆</p>
-                    {% elif review.star == 3 %}
-                    <p>★★★☆☆</p>
-                    {% elif review.star == 4 %}
-                    <p>★★★★☆</p>
-                    {% else %}
-                    <p>★★★★★</p>
-                    {% endif %}
-                </td>
-                <td>{{ review.author }}</td>
-                <td>{{ review.create_date }}</td>
-                <td>{{ review.like_review.count }}</td>
-                <td>{{ review.unlike_review.count }}</td>
-                <td>{{ review.review_hit }}</td>
-            </tr>
-            {% endfor %}
+                {% for review in page_obj %}
+                <tr>
+                    <td>
+                        <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
+                        {{ page_obj.paginator.count|sub:page_obj.start_index|sub:forloop.counter0|add:1 }}
+                    </td>
+                    <td>
+                        {{ review.movie.title }}
+                    </td>
+                    <td>
+                        <a href="{% url 'review:review_detail' review.id %}">{{ review }}</a>
+                    </td>
+                    <td>
+                        {% if review.star == 0 %}
+                        <p>☆☆☆☆☆</p>
+                        {% elif review.star == 1 %}
+                        <p>★☆☆☆☆</p>
+                        {% elif review.star == 2 %}
+                        <p>★★☆☆☆</p>
+                        {% elif review.star == 3 %}
+                        <p>★★★☆☆</p>
+                        {% elif review.star == 4 %}
+                        <p>★★★★☆</p>
+                        {% else %}
+                        <p>★★★★★</p>
+                        {% endif %}
+                    </td>
+                    <td>{{ review.author }}</td>
+                    <td>{{ review.create_date | date:"y/m/d" }}</td>
+                    <td>{{ review.like_review.count }}</td>
+                    <td>{{ review.unlike_review.count }}</td>
+                    <td>{{ review.review_hit }}</td>
+                </tr>
+                {% endfor %}
             {% else %}
-            <tr>
-                <td colspan="3">리뷰가 없습니다.</td>
-            </tr>
+                {% if q %}
+                    <tr>
+                        <td>일치하는 검색 결과가 없습니다.</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>작성된 리뷰가 없습니다.</td>
+                    </tr>
+                {% endif %}
             {% endif %}
         </tbody>
     </table>
@@ -70,7 +82,7 @@
         <!-- 첫 페이지-->
         {% if page_obj.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="?page=1"><<</a>
+            <a class="page-link" href="?page=1" data-page=""><<</a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -80,7 +92,7 @@
         <!-- 이전페이지 -->
         {% if page_obj.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">이전</a>
+            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.previous_page_number }}">이전</a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -90,18 +102,18 @@
         <!-- -------------------- 페이지리스트 -------------------- -->
         {% for page_number in page_range %} {% if page_number == page_obj.number %}
         <li class="page-item active" aria-current="page">
-            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_number }}">{{ page_number }}</a>
         </li>
         {% else %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_number }}">{{ page_number }}</a>
         </li>
         {% endif %}
         {% endfor %}
         <!-- -------------------- 다음페이지 -------------------- -->
         {% if page_obj.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}">다음</a>
+            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.next_page_number }}">다음</a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -111,7 +123,7 @@
         <!-- 마지막으로 -->
         {% if page_obj.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">>></a>
+            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.paginator.num_pages }}">>></a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -120,5 +132,31 @@
         {% endif %}
     </ul>
     <!-- --------------------- 페이징처리 끝 -------------------- -->
+    <!-------------------------------- 검색 영역 -------------------------------->
+    <form action="" method="GET">
+        <div>
+            <select name="type">
+                <option value="all">전체</option>
+                <option value="title_content">제목 + 내용</option>
+                <option value="movie">영화명</option>
+                <option value="author">작성자</option>
+            </select>
+            <input type="text" name="q" value="{{ q }}" placeholder="리뷰 검색">
+            <button type="submit" id="search_btn">검색</button>
+        </div>
+    </form>
+    <script type="text/javascript">
+    // 검색 타입 박스 유지
+    target = window.location.search.split('&')[0].split('=')[1]
+    var type = document.getElementsByTagName('option')
+    for (var i = 0; i < 5; i++) {
+        if (type[i].value === target) {
+            type[i].setAttribute('selected', 'selected')
+        }
+    }
+    </script>
+    <!----------------------------------------------------------------------------------->
+
+
 </div>
 {% endblock %}

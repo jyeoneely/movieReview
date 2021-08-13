@@ -54,7 +54,7 @@
             <div>
                 <div>{{ review.content }}</div>
             <!-- 리뷰내용란 아래 쪽 버튼(추천,공유)-->
-                <div class="d-flex justify-content-end bd-highlight mb-3">
+                <div>
                     <div>
                         <!-- ----------------------------추천영역------------------------------------ -->
                         <!-- ----------------------------추천영역------------------------------------ -->
@@ -99,7 +99,7 @@
                         {% endif %}
                         <!-- ----------------------------공유영역------------------------------------ -->
                         <span>
-                            <input type="text" value="http://127.0.0.1:8000/review/{{ review.id }}" id="myInput" style="display:none">
+                            <input type="text" value="http://127.0.0.1:8000/review/{{ review.id }}" id="myInput">
                             <a onclick="copy_to_clipboard()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up" viewBox="0 0 16 16">
                                    <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/>
@@ -126,14 +126,11 @@
 
         <!-- -------------------- 수정, 삭제 영역 -------------------- -->
         <div style="margin:16px">
-           <span>
-                {% if request.user == review.author %}
-                <a type="button" href="{% url 'review:review_modify' review.id  %}" role="button">수정</a>
-                {% endif %}
-            </span>
-            <!--endif-->
+            {% if request.user == review.author %}
             <span>
-                {% if request.user == review.author %}
+                <a type="button" href="{% url 'review:review_modify' review.id  %}" role="button">수정</a>
+            </span>
+            <span>
                 <script type="text/javascript">
                     function button_event(){
                     if (confirm("삭제된 리뷰는 복구가 불가능합니다. 리뷰를 삭제하시겠습니까?") == true){
@@ -145,8 +142,8 @@
                     }
                 </script>
                 <a onclick="button_event();">삭제</a>
-                {% endif %}
             </span>
+            {% endif %}
         </div>
         <!-- ----------------------------------------------------------------------- -->
         <!-- -------------------------- 이전글, 다음글영역 ----------------------------- -->
@@ -155,7 +152,7 @@
                 <td>이전리뷰 :</td>
                 <td>
                     {% if review_before %}
-                    <a href="/review/{{ review_before.id }}">{{ review_before }}</a>
+                    <a href="{% url 'review:review_detail' review_before.id %}">{{ review_before }}</a>
                     {% else%}
                     이전리뷰가 없습니다.
                     {% endif %}
@@ -165,7 +162,7 @@
                 <td>다음리뷰 :</td>
                 <td>
                     {% if review_after %}
-                    <a href="/review/{{ review_after.id }}">{{ review_after }}</a>
+                    <a href="{% url 'review:review_detail' review_after.id %}">{{ review_after }}</a>
                     {% else%}
                     다음리뷰가 없습니다.
                     {% endif %}

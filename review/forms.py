@@ -30,3 +30,7 @@ class ReviewForm(forms.ModelForm):
             'star': '별점',
         }
 
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("label_suffix", "")
+        super(ReviewForm, self).__init__(*args, **kwargs)
+
