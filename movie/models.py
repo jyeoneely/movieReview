@@ -13,6 +13,7 @@ class Movie(models.Model):
     director = models.CharField(max_length=100)  # 감독
     create_date = models.DateTimeField(default=timezone.now)
     running_time = models.PositiveIntegerField(default=0)
+    age_limit = models.CharField(max_length=15, default='전체관람가')
 
     def __str__(self):
         return self.title
