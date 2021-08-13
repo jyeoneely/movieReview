@@ -51,8 +51,15 @@ def review(request):
         if i % num == 1:
             start_index = i
             break
+
+    max_index = len(paginator.page_range)
     end_index = start_index + num
-    page_range = range(start_index, end_index)
+    if end_index >= max_index:
+        end_index = max_index
+
+    page_range = range(start_index, end_index+1)
+    print(page_range)
+
     return render(request, 'account/review.html', {'review_list': review_list, 'page_range': page_range})
 
 

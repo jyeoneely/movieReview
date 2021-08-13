@@ -38,8 +38,25 @@
         {% endif %}
     </table>
 
-    <a href="{% url 'movie:modify' movie.id %}">수정</a>
-    <a href="{% url 'movie:delete' movie.id %}">삭제</a>
+    <div>
+        <a href="{% url 'movie:pick' movie.id %}">
+        {% if pick is False %}
+            찜하기
+        {% else %}
+            찜 삭제
+        {% endif %}
+        </a>
+
+        <a href="{% url 'movie:modify' movie.id %}">수정</a>
+        <a href="{% url 'movie:delete' movie.id %}">삭제</a>
+    </div>
+
+    <div>
+        <div>
+            최근 이 영화에 등록된 리뷰
+        </div>
+    </div>
+
 
 </div>
 
