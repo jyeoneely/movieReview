@@ -82,7 +82,7 @@
         <!-- 첫 페이지-->
         {% if page_obj.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="?page=1" data-page=""><<</a>
+            <a class="page-link" href="?sort={{ sort }}&type={{ type }}&q={{ q }}&page=1" data-page=""><<</a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -92,7 +92,7 @@
         <!-- 이전페이지 -->
         {% if page_obj.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.previous_page_number }}">이전</a>
+            <a class="page-link" href="?sort={{ sort }}&type={{ type }}&q={{ q }}&page={{ page_obj.previous_page_number }}">이전</a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -102,18 +102,18 @@
         <!-- -------------------- 페이지리스트 -------------------- -->
         {% for page_number in page_range %} {% if page_number == page_obj.number %}
         <li class="page-item active" aria-current="page">
-            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_number }}">{{ page_number }}</a>
+            <a class="page-link" href="?sort={{ sort }}&type={{ type }}&q={{ q }}&page={{ page_number }}">{{ page_number }}</a>
         </li>
         {% else %}
         <li class="page-item">
-            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_number }}">{{ page_number }}</a>
+            <a class="page-link" href="?sort={{ sort }}&type={{ type }}&q={{ q }}&page={{ page_number }}">{{ page_number }}</a>
         </li>
         {% endif %}
         {% endfor %}
         <!-- -------------------- 다음페이지 -------------------- -->
         {% if page_obj.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.next_page_number }}">다음</a>
+            <a class="page-link" href="?sort={{ sort }}&type={{ type }}&q={{ q }}&page={{ page_obj.next_page_number }}">다음</a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -123,7 +123,7 @@
         <!-- 마지막으로 -->
         {% if page_obj.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.paginator.num_pages }}">>></a>
+            <a class="page-link" href="?sort={{ sort }}&type={{ type }}&q={{ q }}&page={{ page_obj.paginator.num_pages }}">>></a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -131,7 +131,21 @@
         </li>
         {% endif %}
     </ul>
-    <!-- --------------------- 페이징처리 끝 -------------------- -->
+    <!-- ---------------------------- 페이징처리 끝 --------------------------- -->
+    <!-- ---------------------------- 정렬 영역 --------------------------- -->
+    <form action="" method="GET">
+        <select name="sort" onchange="this.form.submit()">
+          <option name="sort-date" value="date">최신순</option>
+          <option name="sort-star" value="star">별점순</option>
+          <option name="sort-likes" value="like">추천순</option>
+        </select>
+    </form>
+    <script type="text/javascript">
+        // 정렬방식 셀렉트 박스 유지
+        var sort = document.getElementsByTagName('option')
+        sort.setAttribute('selected', 'selected')
+    </script>
+    <!-- ------------------------------------------------------------------- -->
     <!-------------------------------- 검색 영역 -------------------------------->
     <form action="" method="GET">
         <div>
