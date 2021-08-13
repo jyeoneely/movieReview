@@ -7,7 +7,7 @@ from movie.models import Movie
 from account.models import User
 
 class Review(models.Model) :
-    movie = models.ForeignKey('movie.Movie', on_delete=models.DO_NOTHING)
+    movie = models.ForeignKey('movie.Movie', on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=200)
     star = models.PositiveIntegerField()
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

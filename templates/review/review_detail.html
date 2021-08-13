@@ -52,7 +52,7 @@
         <!-- ----------------------------리뷰내용영역------------------------------------ -->
         <div class="card my-3">
             <div>
-                <div>{{ review.content }}</div>
+                <div>{{ review.content | linebreaks }}</div>
             <!-- 리뷰내용란 아래 쪽 버튼(추천,공유)-->
                 <div>
                     <div>
@@ -108,7 +108,7 @@
                             </a>
 
                             <script>
-                                function myFunction() {
+                                function copy_to_clipboard() {
                                     var copyText = document.getElementById("myInput");
                                     copyText.select();
                                     copyText.setSelectionRange(0, 99999)

@@ -8,7 +8,7 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views import generic
-from django.db.models import Q
+from django.db.models import Q, Count
 from account.models import User
 
 # 리뷰홈(목록) 구현
@@ -41,8 +41,18 @@ class IndexView(generic.ListView):
         search_keyword = self.request.GET.get('q', '')
         search_type = self.request.GET.get('type', '')
         page_obj = Review.objects.order_by("-create_date")
+        sort_sort = self.request.GET.get('sort', '')
 
-        if search_keyword:
+        if sort_sort == 'like':
+            sort_page_obj = Review.objects.annotate(like_count=Count('like_review')).order_by('-like_count', '-create_date')
+            return sort_page_obj
+        elif sort_sort == 'star':
+            sort_page_obj = Review.objects.order_by('-star', '-create_date')
+            return sort_page_obj
+        elif sort_sort == 'date':
+            sort_page_obj = Review.objects.order_by('-create_date')
+            return sort_page_obj
+        elif search_keyword:
             if len(search_keyword) > 1:
                 if search_type == 'all':
                     search_page_obj = page_obj.filter(
@@ -58,11 +68,12 @@ class IndexView(generic.ListView):
                 elif search_type == 'author':
                     search_page_obj = page_obj.filter(author__nickname__icontains=search_keyword)
 
-                return search_page_obj
+                return search_page_obj  # Local variable 'search_page_obj' might be referenced before assignment/ global 붙여야하는지 질문
             else:
                 messages.error(self.request, '검색어는 2글자 이상 입력해주세요.')
 
         return page_obj
+
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
