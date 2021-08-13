@@ -43,7 +43,6 @@
     </table>
 
     <div>
-        {% if request.user.is_superuser %}
         <a href="{% url 'movie:pick' movie.id %}">
         {% if pick is False %}
             찜하기
