@@ -59,7 +59,6 @@ def review(request):
         end_index = max_index
 
     page_range = range(start_index, end_index)
-    print(page_range)
 
     return render(request, 'account/review.html', {'review_list': review_list, 'page_range': page_range})
 
@@ -86,7 +85,6 @@ def pick(request):
         end_index = max_index
 
     page_range = range(start_index, end_index)
-    print(page_range)
 
     context = {
         'pick_list': pick_list,
