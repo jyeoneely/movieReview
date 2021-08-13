@@ -6,44 +6,43 @@
 
 {% block main %}
 <div class="row container my-3">
-  <img class="img-corn" src="{% static 'assets/img/manage_corn.png' %}" alt="..." />
   <h1>회원관리</h1>
-  <table class="table row m-0">
-    <thead class="col-12 thead-dark">
-      <tr class="row w-100 m-0">
-        <th scope="col" class="col-6 col-md-8">아이디</th>
-        <th scope="col" class="col-3 col-md-2 text-center"></th>
-        <th scope="col" class="col-3 col-md-2 text-center"></th>
-      </tr>
-    </thead>
-    <tbody class="col-12">
-      {% for user in page_obj %}
-      <tr class="row m-0">
-        <td class="col-4 col-md-8 custom-break-word">{{ user.username }}</td>
-        {% if user.is_superuser %}
-        <td class="col-4 col-md-2 text-center"></td>
-        <td class="col-4 col-md-2 text-center"></td>
-        {% else %}
-        {% if user.is_staff %}
-        <td class="col-4 col-md-2 text-center"><button class="clickStaff square_btn" style="font-size: 1vw;"
-            data-pk="{{user.pk}}">일반회원으로</button></td>
-        {% else %}
-        <td class="col-4 col-md-2 text-center"><button class="clickStaff square_btn" style="font-size: 1vw;"
-            data-pk="{{user.pk}}">스태프로</button></td>
-        {% endif %}
-        {% if user.is_active %}
-        <td class="col-4 col-md-2 text-center"><button class="clickActive square_btn" style="font-size: 1vw;"
-            data-pk="{{user.pk}}">비활성화</button></td>
-        {% else %}
-        <td class="col-4 col-md-2 text-center"><button class="clickActive square_btn"
-                                                       data-pk="{{user.pk}}">활성화</button>
-        </td>
-        {% endif %}
-        {% endif %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <table class="table row m-0">
+        <thead class="col-12 thead-dark">
+          <tr class="row w-100 m-0">
+            <th scope="col" class="col-6 col-md-8">아이디</th>
+            <th scope="col" class="col-3 col-md-2 text-center">비밀번호</th>
+            <th scope="col" class="col-3 col-md-2 text-center">닉네임</th>
+          </tr>
+        </thead>
+        <tbody class="col-12">
+          {% for user in page_obj %}
+          <tr class="row m-0">
+            <td class="col-4 col-md-8 custom-break-word">{{ user.username }}</td>
+            {% if user.is_superuser %}
+            <td class="col-4 col-md-2 text-center"></td>
+            <td class="col-4 col-md-2 text-center"></td>
+            {% else %}
+            {% if user.is_staff %}
+            <td class="col-4 col-md-2 text-center"><button class="clickStaff square_btn" style="font-size: 1vw;"
+                data-pk="{{user.pk}}">일반회원으로</button></td>
+            {% else %}
+            <td class="col-4 col-md-2 text-center"><button class="clickStaff square_btn" style="font-size: 1vw;"
+                data-pk="{{user.pk}}">스태프로</button></td>
+            {% endif %}
+            {% if user.is_active %}
+            <td class="col-4 col-md-2 text-center"><button class="clickActive square_btn" style="font-size: 1vw;"
+                data-pk="{{user.pk}}">비활성화</button></td>
+            {% else %}
+            <td class="col-4 col-md-2 text-center"><button class="clickActive square_btn"
+                                                           data-pk="{{user.pk}}">활성화</button>
+            </td>
+            {% endif %}
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 {% endblock %}

@@ -5,7 +5,6 @@
 
 {% block main %}
 <div class="row container my-3">
-  <img class="img-corn" src="{% static 'assets/img/manage_corn.png' %}" alt="..." />
   <h1>게시물관리</h1>
   <div class="float-right mr-3">
     <a href="{% url 'movie:create' %}" class="my-2 btn btn-info">영화 추가</a>
@@ -49,10 +48,6 @@
       {% endfor %}
     </tbody>
   </table>
-
-  <div class="d-flex justify-content-center my-5">
-
-  </div>
 
 </div>
 

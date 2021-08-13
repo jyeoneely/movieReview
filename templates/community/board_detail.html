@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block main %}
 <div style="display:none">
     {{board.update_counter}}
 </div>
-
 <div class="row container my-3">
     <img class="img-corny" src="{% static 'assets/img/community_corn.png' %}" alt="..." />
     <div class="card">
@@ -17,7 +17,7 @@
             <p class="card-text"><small class="text-muted">조회수 : {{ board.board_hit }}</small></p>
             {% if board.file_image %}
             첨부파일
-            <a href = "{{ board.file_image.url }}" download>
+            <a href = "{{board.file_image.url}}" download>
             <img src= "{{ board.file_image.url }}" height="100"></a>
             {% endif %}
         </div>
@@ -42,7 +42,6 @@
         </div>
         {% endif %}
     </div>
-
 
     <div class="card">
         <table>

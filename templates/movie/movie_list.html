@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load review_filter %}
+
+
 {% block main %}
 <div class="row container my-3">
     <img class="img-corny" src="{% static 'assets/img/movie_corn.png' %}" alt="..." />
-    <table>
+   <table>
         <thead>
             <tr>
                 <th>번호</th>
@@ -98,7 +100,6 @@
             <a class="page-link" tabindex="-1" aria-disabled="true" onclick="return false">>></a>
         </li>
         {% endif %}
-
     </ul>
     <!-- 페이징처리 끝 -->
 

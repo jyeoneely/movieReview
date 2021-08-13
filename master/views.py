@@ -9,7 +9,10 @@ def index(request):
 
 
 def master(request):
-    return render(request, 'master/master.html')
+    if request.user.is_superuser:
+        return render(request, 'master/index.html')
+    else:
+        return render(request, 'master/master.html')
 
 
 def movies(request):
