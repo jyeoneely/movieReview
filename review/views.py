@@ -47,13 +47,12 @@ class IndexView(generic.ListView):
             sort_page_obj = Review.objects.annotate(like_count=Count('like_review')).order_by('-like_count', '-create_date')
             return sort_page_obj
         elif sort_sort == 'star':
-            sort_page_obj = Review.objects.order_by('-star')
+            sort_page_obj = Review.objects.order_by('-star', '-create_date')
             return sort_page_obj
-        else:
+        elif sort_sort == 'date':
             sort_page_obj = Review.objects.order_by('-create_date')
             return sort_page_obj
-
-        if search_keyword:
+        elif search_keyword:
             if len(search_keyword) > 1:
                 if search_type == 'all':
                     search_page_obj = page_obj.filter(
@@ -102,19 +101,6 @@ class IndexView(generic.ListView):
 
         return context
 
-    # 최신순, 별점순, 추천순 정렬 구현
-    def get_sort(self):
-        sort_sort = self.request.GET.get('sort', '')
-
-        if sort_sort == 'like':
-            sort_page_obj = Review.objects.annotate(like_count=Count('like_review')).order_by('-like_count', '-create_date')
-            return sort_page_obj
-        elif sort_sort == 'star':
-            sort_page_obj = Review.objectsorder_by('-star')
-            return sort_page_obj
-        else:
-            sort_page_obj = Review.objects.order_by('-create_date')
-            return sort_page_obj
 
 # 리뷰등록 구현
 @login_required(login_url='account:login')
