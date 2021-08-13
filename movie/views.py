@@ -66,13 +66,18 @@ def create(request):
 
 def detail(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
-    try:
-        Pick.objects.get(movie=movie_id, user=request.user)
-        pick_exist = True
-    except Pick.DoesNotExist:
-        pick_exist = False
+    if request.user.is_authenticated:
+        try:
+            Pick.objects.get(movie=movie_id, user=request.user)
+            pick_exist = True
+        except Pick.DoesNotExist:
+            pick_exist = False
 
-    review = Review.objects.filter(movie=movie).order_by('-create_date')[:5]
+
+        review = Review.objects.filter(movie=movie).order_by('-create_date')[:5]
+    else:
+        pick_exist = False
+        review = None
 
     context = {'movie': movie, 'pick': pick_exist, 'review': review}
     return render(request, 'movie/detail.html', context)
