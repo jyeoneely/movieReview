@@ -1,7 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from movie.models import Movie
+from account.models import User
 
 
 def index(request):
@@ -28,4 +29,28 @@ def movies(request):
 
 
 def users(request):
-    return render(request, 'master/users.html')
+    user_list = User.objects.order_by('-date_joined', 'email')
+    context = {
+        'page_obj': user_list
+    }
+    return render(request, 'master/users.html', context)
+
+def superuser(request, user_id):
+    user = User.objects.get(pk=user_id)
+    if user.is_superuser:
+        user.is_superuser = False
+    else :
+        user.is_superuser = True
+    user.save()
+    return redirect('master:users')
+
+
+def active(request, user_id):
+    user = User.objects.get(pk=user_id)
+    if user.is_active:
+        user.is_active = False
+    else:
+        user.is_active = True
+    user.save()
+    return redirect('master:users')
+
