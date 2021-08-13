@@ -12,13 +12,14 @@ class Movie(models.Model):
     pub_date = models.DateField()  # 개봉일
     director = models.CharField(max_length=100)  # 감독
     create_date = models.DateTimeField(default=timezone.now)
+    running_time = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title
 
 
 class Pick(models.Model):
-    movie = models.ForeignKey('Movie', on_delete=models.CASCADE)
+    movie = models.ForeignKey('Movie', on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey('account.User', on_delete=models.CASCADE)
     pick_date = models.DateTimeField(default=timezone.now)
 

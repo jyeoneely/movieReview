@@ -60,11 +60,7 @@
                     </td>
                     <td>{{ review.author }}</td>
                     <td>
-                        {% if review.modify_date == null %}
-                            <p>{{ review.create_date }}</p>
-                        {% else %}
-                            <p>{{ review.modify_date }}</p>
-                        {% endif %}
+                        {{ review.create_date| date:"y/m/d" }}
                     </td>
                     <td>{{ review.like_review.count }}</td>
                     <td>{{ review.unlike_review.count }}</td>

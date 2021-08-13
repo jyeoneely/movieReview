@@ -6,6 +6,7 @@ from .forms import UserCreationForm
 from django.contrib import auth
 from django.contrib.auth import authenticate, login
 from review.models import Review
+from movie.models import Pick
 
 
 # Create your views here.
@@ -57,7 +58,7 @@ def review(request):
     if end_index >= max_index:
         end_index = max_index
 
-    page_range = range(start_index, end_index+1)
+    page_range = range(start_index, end_index)
     print(page_range)
 
     return render(request, 'account/review.html', {'review_list': review_list, 'page_range': page_range})
@@ -65,7 +66,34 @@ def review(request):
 
 @login_required(login_url='account:login')
 def pick(request):
-    return render(request, 'account/pick.html')
+    page = request.GET.get('page', '1')
+    if page == '':
+        page = '1'
+    page = int(page)
+    pick_list = Pick.objects.filter(user=request.user.id).order_by('-pick_date')
+    num = 10
+    paginator = Paginator(pick_list, num)
+    pick_list = paginator.page(page)
+    start_index = 1
+    for i in reversed(range(1, page + 1)):
+        if i % num == 1:
+            start_index = i
+            break
+
+    max_index = len(paginator.page_range)
+    end_index = start_index + num
+    if end_index >= max_index:
+        end_index = max_index
+
+    page_range = range(start_index, end_index)
+    print(page_range)
+
+    context = {
+        'pick_list': pick_list,
+        'page_range': page_range
+    }
+
+    return render(request, 'account/pick.html', context)
 
 
 @login_required(login_url='account:login')

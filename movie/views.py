@@ -73,13 +73,13 @@ def detail(request, movie_id):
         except Pick.DoesNotExist:
             pick_exist = False
 
+        review_list = Review.objects.filter(movie=movie).order_by('-create_date')[:5]
 
-        review = Review.objects.filter(movie=movie).order_by('-create_date')[:5]
     else:
         pick_exist = False
         review = None
 
-    context = {'movie': movie, 'pick': pick_exist, 'review': review}
+    context = {'movie': movie, 'pick': pick_exist, 'review_list': review_list}
     return render(request, 'movie/detail.html', context)
 
 
