@@ -46,7 +46,7 @@ class IndexView(generic.ListView):
         return context
 
     def get_queryset(self):
-        return Movie.objects.order_by("-pub_date", "-create_date", "title")
+        return Movie.objects.order_by("id")
 
 
 @login_required(login_url='account:login')
