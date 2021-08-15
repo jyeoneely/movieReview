@@ -4,7 +4,7 @@
 
 
 {% block main %}
-<div class="row container my-3" style="padding: 90px 200px 15px 200px;">
+<div class="row container my-3" style="width: 900px;">
     <img class="img-corny" src="{% static 'assets/img/profile_corn.png' %}" alt="..." />
      <div>
         <ul class="list-group">
@@ -14,47 +14,55 @@
             <li class="list-group-item"><a class="panel-info" href="{% url 'account:logout' %}" style="color: #f08200; font-weight: bold; text-decoration: underline;">로그아웃</a></li>
         </ul>
     </div>
-</div>
 
-<div class="row container my-3" style="padding: 15px 40px 80px 40px; text-align: center;">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>포스터</th>
-                <th>영화명</th>
-                <th>찜한 날짜</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% if pick_list %}
+
+    <div class="flex-movie">
+        {% if pick_list %}
             {% for pick in pick_list %}
-            <tr>
-                <td>
-                    <a href="{% url 'movie:detail' pick.movie.id %}">
+
+            <div class="movie_item">
+                <div class="movie_thumb">
                     {% if pick.movie.poster %}
-                    <img src="{{ pick.movie.poster.url }}" width="150" height="200">
+                    <img src="{{ pick.movie.poster.url }}">
                     {% else %}
-                    <img src="{% static 'images/noimg.jpg' %}" height="200">
+                    <img src="{% static 'images/noimg.jpg' %}">
                     {% endif %}
-                    </a>
-                </td>
-                <td>
-                    <a href="{% url 'movie:detail' pick.movie.id %}">
-                        {{ pick.movie.title }}
-                    </a>
-                </td>
-                <td>
-                    {{ pick.pick_date | date:"y/m/d"  }}
-                </td>
-            </tr>
+
+                    <div class="movie_info">
+                        <a href="{% url 'movie:detail' pick.movie.id %}">
+                            <dl>
+                                <dt>개봉</dt>
+                                <dd>{{ pick.movie.pub_date | date:"Y/m/d" }}</dd>
+                            </dl>
+                            <dl>
+                                <dt>등급</dt>
+                                <dd>{{ pick.movie.age_limit }}</dd>
+                            </dl>
+                            <dl>
+                                <dt>감독</dt>
+                                <dd>{{ pick.movie.director }}</dd>
+                            </dl>
+                            <dl>
+                                <dt>런닝타임</dt>
+                                <dd>{{ pick.movie.running_time }} 분</dd>
+                            </dl>
+                        </a>
+                    </div>
+                </div>
+                <div class="movie_title">
+                    <a href="{% url 'movie:detail' pick.movie.id %}">{{ pick.movie.title }}</a>
+                </div>
+            </div>
             {% endfor %}
-            {% else %}
-            <tr>
-                <td colspan="3">찜한 영화가 없습니다.</td>
-            </tr>
-            {% endif %}
-            </tbody>
-        </table>
+        {% else %}
+        <div class="movie_none">
+            영화가 없습니다.
+        </div>
+        {% endif %}
+    </div>
+
+
+
 
         <ul class="pagination justify-content-center">
             {% if review_list.has_previous %}
@@ -101,5 +109,85 @@
         </ul>
 
 </div>
+
+<style>
+    .flex-movie {
+        width: 100%;
+        display: flex;
+        flex-wrap : wrap;
+        justify-content: flex-start;
+        margin: 20px 0;
+    }
+
+    .movie_item {
+        width: 20%;
+        padding: 5px;
+        margin: 5px 0;
+    }
+
+    .movie_thumb {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .movie_thumb>img {
+        width: 100%;
+        height: 250px;
+
+    }
+
+    .movie_info {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(26, 25, 28, 0.9);
+        opacity: 0;
+        font-size: 11px;
+        transition: opacity 0.5s ease;
+    }
+
+    .movie_thumb:hover .movie_info {
+        opacity: 1;
+    }
+
+    .movie_info a {
+        display: block;
+        height: 100%;
+        box-sizing: border-box;
+        text-decoration: none;
+        padding: 15px;
+    }
+
+    .movie_info dl {
+        margin-bottom: 3px;
+    }
+
+    .movie_info dt {
+        float: left;
+        width: 30px;
+        color: #7A7A7A;
+    }
+
+    .movie_info dd {
+        overflow: hidden;
+        color: #D4D4D4;
+    }
+
+    .movie_title {
+        width: 100%;
+        text-align: center;
+        padding: 5px 0;
+    }
+
+    .movie_title a {
+        text-decoration: none;
+    }
+
+</style>
 
 {% endblock %}

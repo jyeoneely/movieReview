@@ -4,7 +4,7 @@
 
 
 {% block main %}
-<div class="row container my-3" style="padding: 90px 200px 15px 200px;">
+<div class="row container my-3" style="width: 900px">
     <img class="img-corny" src="{% static 'assets/img/profile_corn.png' %}" alt="..." />
      <div>
         <ul class="list-group">
@@ -14,63 +14,63 @@
             <li class="list-group-item"><a class="panel-info" href="{% url 'account:logout' %}" style="color: #f08200; font-weight: bold; text-decoration: underline;">로그아웃</a></li>
         </ul>
     </div>
-</div>
 
-<div class="row container my-3" style="padding: 15px 40px 80px 40px; text-align: center;">
+
+
     <table class="table">
         <thead>
-        <tr>
-            <th>번호</th>
-            <th>영화명</th>
-            <th>제목</th>
-            <th>별점</th>
-            <th>작성자</th>
-            <th>작성일시</th>
-            <th>추천</th>
-            <th>비추천</th>
-            <th>조회</th>
+        <tr class="review_table">
+            <th class="table-count">번호</th>
+            <th class="table-horse">영화명</th>
+            <th class="table-title">제목</th>
+            <th class="table-star">별점</th>
+            <th class="table-writer">작성자</th>
+            <th class="table-date">작성일</th>
+            <th class="table-count">추천</th>
+            <th class="table-count">비추</th>
+            <th class="table-count">조회</th>
         </tr>
         </thead>
         <tbody>
         {% if review_list %}
         {% for review in review_list %}
         <tr>
-            <td>
+            <td class="table-count">
                 {{ review_list.paginator.count|sub:review_list.start_index|sub:forloop.counter0|add:1 }}
             </td>
-            <td>
+            <td class="table-horse">
                 {{ review.movie.title }}
             </td>
-            <td>
+            <td class="table-title">
                 <a href="{% url 'review:review_detail' review.id %}">{{ review }}</a>
             </td>
-            <td>
+            <td class="star table-star">
                 {% if review.star == 0 %}
-                    <p>☆☆☆☆☆</p>
+                    ☆☆☆☆☆
                 {% elif review.star == 1 %}
-                    <p>★☆☆☆☆</p>
+                    ★☆☆☆☆
                 {% elif review.star == 2 %}
-                    <p>★★☆☆☆</p>
+                    ★★☆☆☆
                 {% elif review.star == 3 %}
-                    <p>★★★☆☆</p>
+                    ★★★☆☆
                 {% elif review.star == 4 %}
-                    <p>★★★★☆</p>
+                    ★★★★☆
                 {% else %}
-                    <p>★★★★★</p>
+                    ★★★★★
                 {% endif %}
             </td>
-            <td>{{ review.author }}</td>
-            <td>
+            <td class="table-writer">{{ review.author }}</td>
+            <td class="table-date">
                 {{ review.create_date| date:"y/m/d" }}
             </td>
-            <td>{{ review.like_review.count }}</td>
-            <td>{{ review.unlike_review.count }}</td>
-            <td>{{ review.review_hit }}</td>
+            <td class="table-count">{{ review.like_review.count }}</td>
+            <td class="table-count">{{ review.unlike_review.count }}</td>
+            <td class="table-count">{{ review.review_hit }}</td>
         </tr>
         {% endfor %}
         {% else %}
         <tr>
-            <td colspan="3">리뷰가 없습니다.</td>
+            <td>리뷰가 없습니다.</td>
         </tr>
         {% endif %}
         </tbody>
@@ -124,5 +124,76 @@
     </ul>
 
 </div>
+
+<style>
+    select {
+        display: inline-block;
+        border-radius: 3px;
+        padding: 5px;
+        width: 75px;
+        text-align: center;
+        color: black;
+        border: 1px solid #999999;
+        color: #999999;
+    }
+
+    select option {
+        padding: 5px;
+        border: none;
+    }
+
+    table {
+        min-width: 100%;
+        font-size: 14px;
+        table-layout: fixed;
+    }
+
+    table thead tr {
+        text-align: center;
+    }
+
+    table th,
+    td {
+        vertical-align: middle;
+    }
+
+    table .table-count {
+        width: 4%;
+        text-align: center;
+        padding: 0;
+    }
+
+    table .table-horse {
+        width: 12%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    table .table-star,
+    table .table-writer,
+    table .table-date {
+        width: 8%;
+        text-align: center;
+    }
+
+    table .table-title {
+        width: 35%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .table-bottom {
+        position: relative;
+    }
+
+    a.btn.btn-primary,
+    button.btn.btn-primary {
+        padding: 10px;
+        height: 36px;
+        margin-top: -1px;
+    }
+</style>
 
 {% endblock %}

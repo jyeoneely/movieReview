@@ -84,6 +84,9 @@ def pick(request):
     if end_index >= max_index:
         end_index = max_index
 
+    if end_index == 1:
+        end_index = 2;
+
     page_range = range(start_index, end_index)
 
     context = {
