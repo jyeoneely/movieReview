@@ -226,6 +226,7 @@ a {
   color: #f5bc10;
   text-decoration: underline;
 }
+
 a:hover {
   color: #f08200;
 }
@@ -11472,7 +11473,7 @@ body {
 .signup-section {
   margin-bottom: 0rem;
   padding: 18rem 4rem;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%, #000 100%), url("../assets/img/minions.png");
+  background: url("../assets/img/minions.png");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -11532,12 +11533,15 @@ body {
 
 .my-3 {
   margin: 0 auto;
-  padding: 160px 48px;
-  width: 864px;
+  padding: 100px 48px 150px 48px;
+  width: 1000px;
   color: #999999;
   align: center;
 }
 
+.signup-3 {
+  display: button;
+}
 
 
 /* .Signup_page-form {
@@ -11636,7 +11640,7 @@ body {
 .row container my-3 {
   margin: 0px auto;
   padding: 160px 160px 0px 0px;
-  width: 1320px;
+  width: 1000px;
   min-height: 1200px;
 }
 
@@ -11655,4 +11659,17 @@ body {
 
 .panel-info {
   static: flex;
+}
+
+.signup-1 {
+  color: gray;
+  border-color: gray;
+}
+
+.star {
+  color: #f5bc10;
+}
+
+.review_table {
+  border-bottom-color: #f5bc10;
 }

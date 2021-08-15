@@ -2,79 +2,81 @@
 {% load static %}
 
 {% block main %}
-<div style="display:none">
-    {{board.update_counter}}
-</div>
 <div class="row container my-3">
     <img class="img-corny" src="{% static 'assets/img/community_corn.png' %}" alt="..." />
-    <div class="card">
-        <div class="card-body">
-            <h2 class="card-title">{{ board.title }}</h2>
-            <p class="card-text"><small>작성자 : {{ board.writer }}</small></p>
-            <p class="card-text"><small>글머리 : {{ board.content_type }}</small></p>
-            <p class="card-text">{{ board.content|linebreaks }}</p>
-            <p class="card-text"><small class="text-muted">작성일 : {{ board.created_date | date:"Y-m-d h:i" }}</small></p>
-            <p class="card-text"><small class="text-muted">조회수 : {{ board.board_hit }}</small></p>
-            {% if board.file_image %}
-            첨부파일
-            <a href = "{{board.file_image.url}}" download>
-            <img src= "{{ board.file_image.url }}" height="100"></a>
-            {% endif %}
+        <h1 class="border-bottom">{{board.update_counter}}</h1>
+            <div>
+                <div>
+                    <div class="card-body" style="float: right; color: #999999; text-decoration: none;">
+                        <span class="card-text"><small>작성자 : {{ board.writer }}</small></span>
+                        <span> | </span>
+                        <span class="card-text"><small>글머리 : {{ board.content_type }}</small></span>
+                        <span> | </span>
+    <!--                    <span class="card-text">{{ board.content|linebreaks }}</span>-->
+                        <span class="card-text"><small class="text-muted">작성일 : {{ board.created_date | date:"Y-m-d h:i" }}</small></span>
+                        <span> | </span>
+                        <span class="card-text"><small class="text-muted">조회수 : {{ board.board_hit }}</small></span>
+                    </div>
+                </div>
+            </div>
+              {% if board.file_image %}
+                    첨부파일
+                    <a href = "{{board.file_image.url}}" download>
+                    <img src= "{{ board.file_image.url }}" height="100"></a>
+                    {% endif %}
+
+            <div style="margin:16px">
+                <span >
+                    <a href="{% url 'community:index'%}" role="button">목록</a>
+                </span>
+
+                {% if request.user == board.writer %}
+                <span>
+                    <a href="{% url 'community:modify' board.id%}" role="button">수정</a>
+                </span>
+                <span>
+                    <script type="text/javascript">
+                           function button_event(){
+                           if (confirm("삭제된 리뷰는 복구가 불가능합니다. 리뷰를 삭제하시겠습니까?") == true){
+                                location.replace("{% url 'community:delete' board.id  %}");
+                            }
+                            else{
+                                return;
+                            }
+                            }
+                        </script>
+                        <a onclick="button_event();">삭제</a>
+                    </span>
+                    {% endif %}
+            </div>
+
+            <div class="card">
+                <table>
+                    <tr align="center">
+                        <td>이전글 : </td>
+                        <td>
+                            {% if board_before %}
+                            <a href="{% url 'community:detail' board_before.id %}">{{board_before.title}}</a>
+                            {% else%}
+                            이전글이 없습니다.
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr align="center">
+                        <td>다음글 : </td>
+                        <td>
+                            {% if board_after %}
+                            <a href="{% url 'community:detail' board_after.id %}">{{board_after.title}}</a>
+                            {% else%}
+                            다음글이 없습니다.
+                            {% endif %}
+                        </td>
+                    </tr>
+
+
+                </table>
+            </div>
         </div>
-    </div>
-
-    <div style="margin:16px">
-        <span >
-            <a href="{% url 'community:index'%}" role="button">목록</a>
-        </span>
-
-        {% if request.user == board.writer %}
-        <span>
-            <a href="{% url 'community:modify' board.id%}" role="button">수정</a>
-        </span>
-        <span>
-            <script type="text/javascript">
-                   function button_event(){
-                   if (confirm("삭제된 리뷰는 복구가 불가능합니다. 리뷰를 삭제하시겠습니까?") == true){
-                        location.replace("{% url 'community:delete' board.id  %}");
-                    }
-                    else{
-                        return;
-                    }
-                    }
-                </script>
-                <a onclick="button_event();">삭제</a>
-            </span>
-            {% endif %}
-    </div>
-
-    <div class="card">
-        <table>
-            <tr align="center">
-                <td>이전글 : </td>
-                <td>
-                    {% if board_before %}
-                    <a href="{% url 'community:detail' board_before.id %}">{{board_before.title}}</a>
-                    {% else%}
-                    이전글이 없습니다.
-                    {% endif %}
-                </td>
-            </tr>
-            <tr align="center">
-                <td>다음글 : </td>
-                <td>
-                    {% if board_after %}
-                    <a href="{% url 'community:detail' board_after.id %}">{{board_after.title}}</a>
-                    {% else%}
-                    다음글이 없습니다.
-                    {% endif %}
-                </td>
-            </tr>
-
-
-        </table>
-    </div>
-</div>
 
 
 

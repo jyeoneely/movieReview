@@ -5,14 +5,15 @@
 
 
 {% block main %}
-<div class="row container my-3">
+<div class="row container my-3" style="padding: 150px 250px 250px 250px;">
+
     <img class="img-corny" src="{% static 'assets/img/signup_corn.png' %}" alt="..." />
     <form method="post" action="{% url 'account:signup' %}">
         {% csrf_token %}
         <input type="hidden" name="next" value="" />
         {% include "account/form_errors.html" %}
         {{ form.as_p }}
-        <button type="submit">로그인</button>
+        <button type="submit" class="btn btn-primary" style="float: right;">회원가입</button>
     </form>
 </div>
 {% endblock %}

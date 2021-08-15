@@ -3,7 +3,7 @@
 
 
 {% block main %}
-<div class="row container my-3">
+<div class="row container my-3" style="padding: 200px 250px 250px 250px;">
     <img class="img-corny" src="{% static 'assets/img/login_corn.png' %}" alt="..." />
     <form method="post" class="post-form" action="{% url 'account:login' %}">
         {% csrf_token %}
@@ -19,12 +19,16 @@
             <input type="password" class="form-control" name="password" id="password"
                    value="{{ form.password.value|default_if_none:'' }}">
         </div>
-        <div class="col-8 text-center">
-            <button type="submit" class="btn btn-primary">로그인</button>
-        </div>
-        <div class="signup-1 text-right">
-            <span><a href="{% url 'account:signup' %}">신규 회원가입하기</a></span>
-        </div>
+            <div class="col-8 text-center" style="padding-top: 15px;">
+                <button type="button" class="btn btn-primary" style="float: left;">
+                    <a href="{% url 'account:signup'%}" style="
+                      color: #ffff;
+                      text-decoration: none;"
+                    >ㅤㅤㅤㅤ회원가입ㅤㅤㅤㅤ</a>
+                </button>
+            </div>
+                <button type="submit" class="btn btn-primary" style="float: right;">ㅤㅤㅤㅤ 로그인 ㅤㅤㅤㅤ</button>
+            <div style="clear: both;"></div>
     </form>
 </div>
 {%endblock%}
