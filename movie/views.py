@@ -46,7 +46,7 @@ class IndexView(generic.ListView):
         return context
 
     def get_queryset(self):
-        return Movie.objects.order_by("-pub_date", "-create_date", "title")
+        return Movie.objects.order_by("id")
 
 
 @login_required(login_url='account:login')
@@ -66,6 +66,9 @@ def create(request):
 
 def detail(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
+
+    movie.description.replace("\\n", "")
+
     review_list = Review.objects.filter(movie=movie).order_by('-create_date')[:5]
     if request.user.is_authenticated:
         try:
