@@ -8,92 +8,94 @@
     <img class="img-corny" src="{% static 'assets/img/movie_corn.png' %}" alt="..." />
 
 
-<table class="tg">
-<thead>
-  <tr>
-    <th class="tg-sfwq" colspan="2" rowspan="7">
-                {% if movie.poster %}
-                    <img src="{{ movie.poster.url }}" height="400">
-                {% else %}
-                    <img src="{% static 'images/noimg.jpg' %}" height="400">
-                {% endif %}
-    </th>
+    <table class="tg">
+        <thead>
+          <tr>
+            <th class="tg-sfwq" colspan="2" rowspan="7">
+            <div>
+                        {% if movie.poster %}
+                            <img src="{{ movie.poster.url }}" height="400">
+                        {% else %}
+                            <img src="{% static 'images/noimg.jpg' %}" height="400">
+                        {% endif %}
+            </div>
+            </th>
+            <th class="tg-sfwq" colspan="3"><a href="{% url 'movie:index' %}" style="text-decoration: none; size: 10px; float: right;"><<strong>목록으로</strong></a>
+            </th>
+          </tr>
 
-    <th class="tg-sfwq" colspan="3"><a href="{% url 'movie:index' %}" style="text-decoration: none; size: 10px; float: right;"><<strong>목록으로</strong></a>
-    </th>
-  </tr>
+          <tr>
+              <td class="tg-sfwq" colspan="3" style="font-size: 50px;"><br><strong>{{movie.title}}</strong></td>
+          </tr>
 
-  <tr>
-      <td class="tg-sfwq" colspan="3" style="font-size: 50px;"><br><strong>{{movie.title}}</strong></td>
-  </tr>
+          <tr>
+              <td class="tg-sfwq" style="color: #f5bc10;"><strong><br>감독ㅤㅤㅤㅤ</strong></td>
+            <td class="tg-sfwq"><br>{{movie.director}}</td>
+            <td class="tg-sfwq" rowspan="4"></td>
+          </tr>
+
+          <tr>
+              <td class="tg-sfwq" style="color: #f5bc10;"><strong>개봉일ㅤㅤㅤㅤ</strong></td>
+            <td class="tg-sfwq">{{movie.pub_date}}</td>
+          </tr>
+
+          <tr>
+              <td class="tg-sfwq" style="color: #f5bc10;"><strong>상영시간ㅤㅤㅤㅤ</strong></td>
+            <td class="tg-sfwq">{{movie.running_time}}분</td>
+          </tr>
+
+          <tr>
+              <td class="tg-sfwq" style="color: #f5bc10;"><strong>관람연령ㅤㅤㅤㅤ</strong></td>
+            <td class="tg-sfwq">{{movie.age_limit}}</td>
+          </tr>
+
+          <tr>
+            <td class="tg-sfwq"></td>
+            <td class="tg-sfwq"></td>
+            <td class="tg-sfwq">
+                <div>
+                    ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+                    <a class="btn btn-primary" type="button" href="{% url 'movie:pick' movie.id %}" role="button" style="float: right; text-decoration: none;">
+                    {% if pick is False %}
+                        찜하기♥
+                    {% else %}
+                        찜 삭제
+                    {% endif %}
+                    </a>
+
+                </div>
+            </td>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td class="tg-sfwq" style="color: #f5bc10;"><strong>영화설명ㅤㅤㅤㅤ</strong></td>
+            <td class="tg-sfwq" colspan="4" style="float: left;"><br>{{movie.description|linebreaks}}</td>
+          </tr>
+        </tbody>
+    </table>
 
 
-  <tr>
-      <td class="tg-sfwq" style="color: #f5bc10;"><strong><br>감독</strong></td>
-    <td class="tg-sfwq"><br>{{movie.director}}</td>
-    <td class="tg-sfwq" rowspan="4"></td>
-  </tr>
-
-
-  <tr>
-      <td class="tg-sfwq" style="color: #f5bc10;"><strong>개봉일</strong></td>
-    <td class="tg-sfwq">{{movie.pub_date}}</td>
-  </tr>
-
-  <tr>
-      <td class="tg-sfwq" style="color: #f5bc10;"><strong>상영시간</strong></td>
-    <td class="tg-sfwq">{{movie.running_time}}분</td>
-  </tr>
-
-  <tr>
-      <td class="tg-sfwq" style="color: #f5bc10;"><strong>관람연령</strong></td>
-    <td class="tg-sfwq">{{movie.age_limit}}</td>
-  </tr>
-
-  <tr>
-    <td class="tg-sfwq"></td>
-    <td class="tg-sfwq"></td>
-    <td class="tg-sfwq">
-        <div>
-            ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
-            <a class="btn btn-primary" type="button" href="{% url 'movie:pick' movie.id %}" role="button" style="float: right; text-decoration: none;">
-            {% if pick is False %}
-                찜하기♥
-            {% else %}
-                찜 삭제
-            {% endif %}
-            </a>
-
-            {% if request.user.is_superuser %}
-            <span>
-                <a href="{% url 'movie:modify' movie.id%}" role="button">수정</a>
-            </span>
-            <span>
-                <script type="text/javascript">
-                   function button_event(){
-                   if (confirm("삭제된 영화는 복구가 불가능합니다. 영화를 삭제하시겠습니까?") == true){
-                        location.replace("{% url 'movie:delete' movie.id  %}");
-                    }
-                    else{
-                        return;
-                    }
-                    }
-                </script>
-                <a onclick="button_event();">삭제</a>
-            </span>
-            {% endif %}
-        </div>
-    </td>
-  </tr>
-</thead>
-
-<tbody>
-  <tr>
-      <td class="tg-sfwq" style="color: #f5bc10;"><strong>영화설명</strong></td>
-    <td class="tg-sfwq" colspan="4" style="float: left;"><br>{{movie.description|linebreaks}}</td>
-  </tr>
-</tbody>
-</table>
+    <div>
+        {% if request.user.is_superuser %}
+        <span>
+            <a href="{% url 'movie:modify' movie.id%}" role="button" style="float: right;">수정</a>
+        </span>
+        <span>
+            <script type="text/javascript">
+               function button_event(){
+               if (confirm("삭제된 영화는 복구가 불가능합니다. 영화를 삭제하시겠습니까?") == true){
+                    location.replace("{% url 'movie:delete' movie.id  %}");
+                }
+                else{
+                    return;
+                }
+                }
+            </script>
+            <a onclick="button_event();" style="float: right;">삭제</a>
+        </span>
+        {% endif %}
+    </div>
 </div>
-
 {% endblock %}
