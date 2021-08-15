@@ -7,59 +7,80 @@
 <div class="row container my-3">
     <img class="img-corny" src="{% static 'assets/img/movie_corn.png' %}" alt="..." />
 
-    <table>
-        <tr>
-            <td>영화제목</td>
-            <td>{{movie.title}}</td>
-        </tr>
-        <tr>
-            <td>감독</td>
-            <td>{{movie.director}}</td>
-        </tr>
-        <tr>
-            <td>개봉일</td>
-            <td>{{movie.pub_date}}</td>
-        </tr>
-        <tr>
-            <td>상영시간</td>
-            <td>{{movie.running_time}}분</td>
-        </tr>
-        <tr>
-            <td>관람연령</td>
-            <td>{{movie.age_limit}}</td>
-        </tr>
-        <tr>
-            <td>영화소개</td>
-            <td>{{movie.description|linebreaks}}</td>
-        </tr>
-        {% if movie.poster %}
-        <tr>
-            <td>포스터</td>
-            <td>
-            {% if movie.poster %}
-                <img src="{{ movie.poster.url }}" height="400">
-            {% else %}
-                <img src="{% static 'images/noimg.jpg' %}" height="400">
-            {% endif %}
+
+    <table class="tg">
+        <thead>
+          <tr>
+            <th class="tg-sfwq" colspan="2" rowspan="7">
+            <div>
+                        {% if movie.poster %}
+                            <img src="{{ movie.poster.url }}" height="400">
+                        {% else %}
+                            <img src="{% static 'images/noimg.jpg' %}" height="400">
+                        {% endif %}
+            </div>
+            </th>
+            <th class="tg-sfwq" colspan="3"><a href="{% url 'movie:index' %}" style="text-decoration: none; size: 10px; float: right;"><<strong>목록으로</strong></a>
+            </th>
+          </tr>
+
+          <tr>
+              <td class="tg-sfwq" colspan="3" style="font-size: 50px;"><br><strong>{{movie.title}}</strong></td>
+          </tr>
+
+          <tr>
+              <td class="tg-sfwq" style="color: #f5bc10;"><strong><br>감독ㅤㅤㅤㅤ</strong></td>
+            <td class="tg-sfwq"><br>{{movie.director}}</td>
+            <td class="tg-sfwq" rowspan="4"></td>
+          </tr>
+
+          <tr>
+              <td class="tg-sfwq" style="color: #f5bc10;"><strong>개봉일ㅤㅤㅤㅤ</strong></td>
+            <td class="tg-sfwq">{{movie.pub_date}}</td>
+          </tr>
+
+          <tr>
+              <td class="tg-sfwq" style="color: #f5bc10;"><strong>상영시간ㅤㅤㅤㅤ</strong></td>
+            <td class="tg-sfwq">{{movie.running_time}}분</td>
+          </tr>
+
+          <tr>
+              <td class="tg-sfwq" style="color: #f5bc10;"><strong>관람연령ㅤㅤㅤㅤ</strong></td>
+            <td class="tg-sfwq">{{movie.age_limit}}</td>
+          </tr>
+
+          <tr>
+            <td class="tg-sfwq"></td>
+            <td class="tg-sfwq"></td>
+            <td class="tg-sfwq">
+                <div>
+                    ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+                    <a class="btn btn-primary" type="button" href="{% url 'movie:pick' movie.id %}" role="button" style="float: right; text-decoration: none;">
+                    {% if pick is False %}
+                        찜하기♥
+                    {% else %}
+                        찜 삭제
+                    {% endif %}
+                    </a>
+
+                </div>
             </td>
-        </tr>
-        {% endif %}
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td class="tg-sfwq" style="color: #f5bc10;"><strong>영화설명ㅤㅤㅤㅤ</strong></td>
+            <td class="tg-sfwq" colspan="4" style="float: left;"><br>{{movie.description|linebreaks}}</td>
+          </tr>
+        </tbody>
     </table>
 
+
     <div>
-        <a href="{% url 'movie:pick' movie.id %}">
-        {% if pick is False %}
-            찜하기
-        {% else %}
-            찜 삭제
-        {% endif %}
-        </a>
-
-        <a href="{% url 'movie:index' %}">목록</a>
-
         {% if request.user.is_superuser %}
         <span>
-            <a href="{% url 'movie:modify' movie.id%}" role="button">수정</a>
+            <a href="{% url 'movie:modify' movie.id%}" role="button" style="float: right;">수정</a>
         </span>
         <span>
             <script type="text/javascript">
@@ -72,12 +93,9 @@
                 }
                 }
             </script>
-            <a onclick="button_event();">삭제</a>
+            <a onclick="button_event();" style="float: right;">삭제</a>
         </span>
         {% endif %}
     </div>
-
-
 </div>
-
 {% endblock %}
